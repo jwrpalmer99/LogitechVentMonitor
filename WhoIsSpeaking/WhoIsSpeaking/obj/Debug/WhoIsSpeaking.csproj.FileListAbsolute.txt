@@ -1,0 +1,14 @@
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.pdb
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csprojResolveAssemblyReference.cache
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.Form1.resources
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.Properties.Resources.resources
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csproj.GenerateResource.Cache
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.exe
+c:\users\jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.pdb
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\ColorManagment.dll
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\Ini.Net.dll
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\ICCReader.dll
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.dll
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.pdb
+C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe.config

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsSpeaking", "WhoIsSpeaking\WhoIsSpeaking.csproj", "{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CFEEA3E-2636-41E3-A7CB-891C6C5D5AA6}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
