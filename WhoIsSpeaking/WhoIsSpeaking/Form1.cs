@@ -1029,5 +1029,20 @@ namespace WhoIsSpeaking
                 radioSpell.Checked = true;
         }
 
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+	        if (this.WindowState == FormWindowState.Minimized)//this code gets fired on every resize
+	        {																					   //so we check if the form was minimized
+		        Hide();//hides the program on the taskbar
+		        notifyIcon1.Visible = true;//shows our tray icon
+	        }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();//shows the program on taskbar
+            this.WindowState = FormWindowState.Normal;//undoes the minimized state of the form
+            notifyIcon1.Visible = false;//hides tray icon again
+        }
     }
 }

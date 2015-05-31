@@ -1,0 +1,15 @@
+[LED]
+LEDAnimation=TRUE
+KeepLogitechColours=TRUE
+StartColour=Lime
+EndColour=Red
+[Animation]
+AnimationDelay=40
+GradientSpeed=9
+FadeSpeed=8
+EffectDistance=1
+Wave=TRUE
+WaveFalloff=4
+[Ventrilo]
+UseArx=TRUE
+DisplayMethod=Off

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lblArxStatusHeader = new System.Windows.Forms.Label();
             this.lblArxStatus = new System.Windows.Forms.Label();
@@ -55,12 +56,13 @@
             this.numWaveSpeed = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lstProfiles = new System.Windows.Forms.ListBox();
             this.cmdCancelProfileLoad = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStartColour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEndColour)).BeginInit();
@@ -423,33 +425,33 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // exitToolStripMenuItem
+            // loadProfileToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.loadProfileToolStripMenuItem.Name = "loadProfileToolStripMenuItem";
+            this.loadProfileToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.loadProfileToolStripMenuItem.Text = "Load Profile...";
+            this.loadProfileToolStripMenuItem.Click += new System.EventHandler(this.loadProfileToolStripMenuItem_Click);
             // 
             // saveProfileToolStripMenuItem
             // 
             this.saveProfileToolStripMenuItem.Name = "saveProfileToolStripMenuItem";
-            this.saveProfileToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.saveProfileToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.saveProfileToolStripMenuItem.Text = "Save Profile...";
             this.saveProfileToolStripMenuItem.Click += new System.EventHandler(this.saveProfileToolStripMenuItem_Click);
-            // 
-            // loadProfileToolStripMenuItem
-            // 
-            this.loadProfileToolStripMenuItem.Name = "loadProfileToolStripMenuItem";
-            this.loadProfileToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.loadProfileToolStripMenuItem.Text = "Load Profile...";
-            this.loadProfileToolStripMenuItem.Click += new System.EventHandler(this.loadProfileToolStripMenuItem_Click);
             // 
             // setAsDefaultToolStripMenuItem
             // 
             this.setAsDefaultToolStripMenuItem.Name = "setAsDefaultToolStripMenuItem";
-            this.setAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.setAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.setAsDefaultToolStripMenuItem.Text = "Set as Default";
             this.setAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.setAsDefaultToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // lstProfiles
             // 
@@ -473,6 +475,13 @@
             this.cmdCancelProfileLoad.UseVisualStyleBackColor = true;
             this.cmdCancelProfileLoad.Visible = false;
             this.cmdCancelProfileLoad.Click += new System.EventHandler(this.cmdCancelProfileLoad_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Logitech Vent Monitor";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // Form1
             // 
@@ -510,6 +519,7 @@
             this.Name = "Form1";
             this.Text = "Logitech Vent Monitor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStartColour)).EndInit();
@@ -560,6 +570,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ListBox lstProfiles;
         private System.Windows.Forms.Button cmdCancelProfileLoad;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
 
     }
 }

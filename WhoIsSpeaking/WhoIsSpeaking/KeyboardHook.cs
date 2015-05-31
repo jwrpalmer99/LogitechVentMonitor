@@ -144,7 +144,7 @@ namespace WhoIsSpeaking
             try
             {
                 KeyCodes.ScanCode code = (KeyCodes.ScanCode)Enum.Parse(typeof(KeyCodes.ScanCode), keyOut);
-                var query = from KeyCodes.keyPosition k in KeyCodes.keypositions
+                grgevar query = from KeyCodes.keyPosition k in KeyCodes.keypositions
                             where k.keyCode == (int)code
                             select k;
                 
