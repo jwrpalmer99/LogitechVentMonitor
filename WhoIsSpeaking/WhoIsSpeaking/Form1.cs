@@ -499,7 +499,7 @@ namespace WhoIsSpeaking
                                                         display: table-cell;
                                                         vertical-align: middle;
                                                         text-align:center;
-                                                        font-size:500%;
+                                                        font-size:250%;
                                                         color:rgb(255,255,255);
                                                     }
                                                     h2 {
@@ -688,6 +688,7 @@ namespace WhoIsSpeaking
         ///<param name="process">Process hosting the tree view control.</param>
 
         private static IntPtr procHandle = IntPtr.Zero;
+        public static bool randomColours = false;
         
         private static NodeData AllocTest(Process process, IntPtr hwndTreeView, IntPtr hwndItem)
         {
@@ -980,6 +981,7 @@ namespace WhoIsSpeaking
             pFile.WriteBoolean("LED", "KeepLogitechColours", useLogitechColours);
             pFile.WriteString("LED", "StartColour", ColorTranslator.ToHtml(m_startColour));
             pFile.WriteString("LED", "EndColour", ColorTranslator.ToHtml(m_endColour));
+            pFile.WriteBoolean("LED", "RandomColours", randomColours);
             pFile.WriteBoolean("LED", "UseKeysaver", UseKeysaver);
             pFile.WriteInteger("LED", "KeysaverTime", KeySaverTime);
             pFile.WriteInteger("Animation", "AnimationDelay", m_AnimationSpeed);
@@ -1046,6 +1048,7 @@ namespace WhoIsSpeaking
             useLogitechColours = pFile.ReadBoolean("LED", "KeepLogitechColours");
             m_startColour = ColorTranslator.FromHtml(pFile.ReadString("LED", "StartColour"));
             m_endColour = ColorTranslator.FromHtml(pFile.ReadString("LED", "EndColour"));
+            randomColours = pFile.ReadBoolean("LED", "RandomColours");
             m_AnimationSpeed = pFile.ReadInteger("Animation", "AnimationDelay");
             m_gradientspeed = pFile.ReadInteger("Animation", "GradientSpeed" );
             m_fadespeed= pFile.ReadInteger("Animation", "FadeSpeed" );
@@ -1056,7 +1059,8 @@ namespace WhoIsSpeaking
             LEDMode = (LEDDisplay)Enum.Parse(typeof(LEDDisplay), pFile.ReadString("Ventrilo", "DisplayMethod"));
             UseKeysaver = pFile.ReadBoolean("LED", "UseKeysaver");
             KeySaverTime = pFile.ReadInteger("LED", "KeySaverTime");
-                        
+
+            chkRandomColours.Checked = randomColours;
             chkKeySaver.Checked = UseKeysaver;
             numKeySaverTime.Value = KeySaverTime;
             picStartColour.BackColor = m_startColour;
@@ -1116,6 +1120,11 @@ namespace WhoIsSpeaking
         private void lstProfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void chkRandomColours_CheckedChanged(object sender, EventArgs e)
+        {
+            randomColours = chkRandomColours.Checked;
         }
     }
 }
