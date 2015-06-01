@@ -72,18 +72,130 @@ namespace WhoIsSpeaking
             timerKeySaver.Stop();
         }
 
+        public struct keysavePoint
+        {
+            public Point point;
+            public int counter;
+        }
         void bw_Keysave_DoWork(object sender, DoWorkEventArgs e)
         {
+            LogitechGSDK.LogiLedSetLighting(0, 0, 0);
             DateTime inittime = DateTime.Now;
+            int counter = 0;
+            List<keysavePoint> points = new List<keysavePoint> { };
+            Random rnd = new Random();
             while (true)
             {
                 if (bw_Keysave.CancellationPending) return;
                 TimeSpan elapsed = DateTime.Now - inittime;
-                if (elapsed.TotalMilliseconds > 500)
+                if (elapsed.TotalMilliseconds > 500) //change this namber to change speed new stars appear
                 {
-                    Console.Write(".");
+                    //for (int c = 0; c < 2; c++)
+                    //{ 
+                        int newx = rnd.Next(0,20);
+                        int newy = rnd.Next(0, 5);
+                        keysavePoint kp = new keysavePoint();
+                        kp.point = new Point(newx, newy);
+                        kp.counter = 0;
+                        points.Add(kp);
+                    //}
+                    //Console.Write(".");
                     inittime = DateTime.Now;
                 }
+                if (counter > 4) //change this number to change speed stars change
+                {                    
+                    counter = 0;
+
+                    System.Drawing.Color c1 = Form1.m_startColour;
+                    System.Drawing.Color c2 = Form1.m_endColour;
+
+                    int fadespeed = Form1.m_fadespeed;
+                    int gradientspeed = Form1.m_gradientspeed;
+
+                    ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
+                    ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R, c1.G, c1.B);  //create an RGB color
+                    ColorLab lab1 = Converter.ToLab(rgb1);
+                    ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R, c2.G, c2.B);  //create an RGB color
+                    ColorLab lab2 = Converter.ToLab(rgb2);
+
+                    bmp = new Bitmap(21, 6);
+                    LockBitmap lockBitmap = new LockBitmap(bmp);
+                    lockBitmap.LockBits();
+
+
+
+                    for (int x = 0; x < 21; x++)
+                        for (int y = 0; y < 6; y++)
+                        {
+                            distances[x, y] = double.MaxValue;
+                            times[x, y] = int.MaxValue;
+                        }
+
+                    for (int i = 0; i < points.Count; i++)
+                    {
+                        keysavePoint c = points[i];
+
+                        for (int x = 0; x < 21; x++)
+                            for (int y = 0; y < 6; y++)
+                            {
+                                double distance = Math.Sqrt(((x - c.point.X) * (x - c.point.X) + (y - c.point.Y) * (y - c.point.Y)));
+                                distance = Math.Abs(distance) / (Form1.m_distanceFalloff / 2);
+                                if (Form1.m_Wave)
+                                {
+                                    distance -= c.counter;
+                                    distance = Math.Abs(distance);
+                                }
+                                if (distance < Math.Abs(distances[x, y]))
+                                {
+                                    distances[x, y] = distance;
+                                }
+                                if (c.counter < times[x, y])
+                                    times[x, y] = c.counter;
+                            }
+                        c.counter++;
+                        points[i] = c;
+                    }
+
+                    for (int x = 0; x < 21; x++)
+                        for (int y = 0; y < 6; y++)
+                        {
+                            double distance = distances[x, y];
+                            System.Drawing.Color colour = System.Drawing.Color.White;
+                            if (Form1.m_Wave == true)
+                                colour = getColour(lab1, lab2, distance + times[x, y] + Math.Pow(distance, Form1.m_WaveSpeed), gradientspeed, fadespeed);
+                            else
+                                colour = getColour(lab1, lab2, distance + times[x, y], gradientspeed, fadespeed);
+                            lockBitmap.SetPixel(x, y, colour);
+                        }
+
+
+                    //for (int ki = 0; ki < points.Count - 1; ki++)
+                    //{
+                    //    double distance = points[ki].counter;
+                    //    keysavePoint kchanged = new keysavePoint();
+                    //    kchanged.point = points[ki].point;
+                    //    kchanged.counter = (int)(distance + 1);
+                    //    points[ki] = kchanged;
+                    //    int x = points[ki].point.X;
+                    //    int y = points[ki].point.Y;
+                    //    System.Drawing.Color colour = System.Drawing.Color.White;
+
+                    //    colour = getColour(lab1, lab2, distance, gradientspeed, fadespeed);
+                    //    lockBitmap.SetPixel(x, y, colour);
+                    //}
+
+                    for (int k = points.Count - 1; k >= 0; k--)
+                    {
+                        if (points[k].counter > 20) points.RemoveAt(k);
+                    }
+                    lockBitmap.UnlockBits();
+
+                    byte[] b = Form1.getLEDGridFromBitmap(bmp);
+                    //((Form1)Application.OpenForms[0]).pic1.Image = bmp;
+                    //bmp.Save(@"C:\temp\heatmap.png");
+                    LogitechGSDK.LogiLedSetLightingFromBitmap(b);
+                }
+                counter++;
                 System.Threading.Thread.Sleep(10);
             }
         }
@@ -234,7 +346,7 @@ namespace WhoIsSpeaking
                 {
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
-                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours) LogitechGSDK.LogiLedRestoreLighting();
+                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy) LogitechGSDK.LogiLedRestoreLighting();
                     return;
                 }
                 else

@@ -19,7 +19,6 @@ C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.dll
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ICCReader.dll
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.pdb
-C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csprojResolveAssemblyReference.cache
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Form1.resources
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Properties.Resources.resources
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csproj.GenerateResource.Cache

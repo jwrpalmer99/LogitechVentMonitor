@@ -65,7 +65,7 @@ namespace WhoIsSpeaking
             if (myPrincipal.IsInRole(WindowsBuiltInRole .Administrator) == false )
             {
             //show messagebox - displaying a messange to the user that rights are missing
-            MessageBox .Show("You need to run the application using the 'run as administrator' option" , "administrator right required" , MessageBoxButtons .OK, MessageBoxIcon .Exclamation); 
+            //MessageBox .Show("You need to run the application using the 'run as administrator' option" , "administrator right required" , MessageBoxButtons .OK, MessageBoxIcon .Exclamation); 
             }
 
             //read settings
