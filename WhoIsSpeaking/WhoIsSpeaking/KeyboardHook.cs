@@ -18,6 +18,9 @@ namespace WhoIsSpeaking
     {
         private static Bitmap keyheatmap = new Bitmap(21,6);
 
+        public static Timer timerKeySaver = new Timer();
+        private static BackgroundWorker bw_Keysave;
+
         private bool bIsHooked = false;
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
@@ -38,16 +41,53 @@ namespace WhoIsSpeaking
 
         public IntPtr SetHook(LowLevelKeyboardProc proc)
         {
+            timerKeySaver.Tick += timerKeySaver_Tick;
+            timerKeySaver.Enabled = true;
+            if (Application.OpenForms.Count > 0)
+            {
+                timerKeySaver.Interval = ((Form1)(Application.OpenForms[0])).KeySaverTime;
+                if (((Form1)(Application.OpenForms[0])).UseKeysaver)
+                {
+                    timerKeySaver.Enabled = true;
+                    timerKeySaver.Start();
+                }
+            }
+
+            bw_Keysave = new BackgroundWorker();
+            bw_Keysave.DoWork += bw_Keysave_DoWork;
+            bw_Keysave.WorkerSupportsCancellation = true;
+
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
             {
                 return SetWindowsHookEx(WH_KEYBOARD_LL, proc,
                     GetModuleHandle(curModule.ModuleName), 0);
-            }
-
-            
+            }            
         }
 
+        void timerKeySaver_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("timer ticked @ " + DateTime.Now.ToLongTimeString());
+            bw_Keysave.RunWorkerAsync();
+            timerKeySaver.Stop();
+        }
+
+        void bw_Keysave_DoWork(object sender, DoWorkEventArgs e)
+        {
+            DateTime inittime = DateTime.Now;
+            while (true)
+            {
+                if (bw_Keysave.CancellationPending) return;
+                TimeSpan elapsed = DateTime.Now - inittime;
+                if (elapsed.TotalMilliseconds > 500)
+                {
+                    Console.Write(".");
+                    inittime = DateTime.Now;
+                }
+                System.Threading.Thread.Sleep(10);
+            }
+        }
+        
         public delegate IntPtr LowLevelKeyboardProc(
             int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -58,6 +98,12 @@ namespace WhoIsSpeaking
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
+            if (timerKeySaver.Enabled || bw_Keysave.IsBusy) //reset timer for keysaver
+            {
+                bw_Keysave.CancelAsync();
+                timerKeySaver.Stop();
+                timerKeySaver.Start();
+            }
             int vkCode = Marshal.ReadInt32(lParam);
 
             if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN))

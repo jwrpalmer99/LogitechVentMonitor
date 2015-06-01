@@ -38,6 +38,8 @@ namespace WhoIsSpeaking
 
         private List<string> ventNames;
 
+        internal bool UseKeysaver = true;
+        internal int KeySaverTime = 30;
         private bool useArx = true;
         private bool useAnimation = true;
         internal bool useLogitechColours = true;
@@ -79,7 +81,7 @@ namespace WhoIsSpeaking
                 InitArx();
             }
 
-            KeyboardHook._hookID= hook.SetHook(hook._proc);
+            KeyboardHook._hookID = hook.SetHook(hook._proc);
 
             timer1 = new Timer();
             timer1.Interval = 200; //vent scan interval
@@ -417,12 +419,16 @@ namespace WhoIsSpeaking
                     string keychar = spellText[pos].ToString().ToUpper();
                     if (keychar == " ") keychar = "SPACE";
                     if (keychar == "-") keychar = "MINUS";
-                    int keyCode = spellText[pos];                    
-                    KeyCodes.KeyCode code = (KeyCodes.KeyCode)Enum.Parse(typeof(KeyCodes.KeyCode), keychar);
-
-                    LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, (int)(step * pos), 100 - (int)(step * pos), 0);
+                    int keyCode = spellText[pos];
+                    try
+                    {
+                        KeyCodes.KeyCode code = (KeyCodes.KeyCode)Enum.Parse(typeof(KeyCodes.KeyCode), keychar);
+                        LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, (int)(step * pos), 100 - (int)(step * pos), 0);
+                        System.Threading.Thread.Sleep(stickyDelay);
+                    }
+                    catch { }
                     int cc = (int)(100 - (step * pos));
-                    System.Threading.Thread.Sleep(stickyDelay);
+                   
                 }
             }
             while (stickyRepeat);
@@ -450,12 +456,16 @@ namespace WhoIsSpeaking
                         int c = (450 - spellPosition + (prevkey * 100)); //use 150 here to add a 50 cycle delay before colour starts fading
                         if (c > -1)
                         {
-                            int p = Math.Min(c, 100);
-                            KeyCodes.KeyCode code = (KeyCodes.KeyCode)Enum.Parse(typeof(KeyCodes.KeyCode), keychar);
-                            if (prevkey == 0)
-                                LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, p, 0, 0);
-                            else
-                                LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, 0, p, 0);
+                            try
+                            {
+                                int p = Math.Min(c, 100);
+                                KeyCodes.KeyCode code = (KeyCodes.KeyCode)Enum.Parse(typeof(KeyCodes.KeyCode), keychar);
+                                if (prevkey == 0)
+                                    LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, p, 0, 0);
+                                else
+                                    LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, 0, p, 0);
+                            }
+                            catch { }
                             pos++;
                         }                    
                 }
@@ -970,6 +980,8 @@ namespace WhoIsSpeaking
             pFile.WriteBoolean("LED", "KeepLogitechColours", useLogitechColours);
             pFile.WriteString("LED", "StartColour", ColorTranslator.ToHtml(m_startColour));
             pFile.WriteString("LED", "EndColour", ColorTranslator.ToHtml(m_endColour));
+            pFile.WriteBoolean("LED", "UseKeysaver", UseKeysaver);
+            pFile.WriteInteger("LED", "KeysaverTime", KeySaverTime);
             pFile.WriteInteger("Animation", "AnimationDelay", m_AnimationSpeed);
             pFile.WriteInteger("Animation", "GradientSpeed", m_gradientspeed);
             pFile.WriteInteger("Animation", "FadeSpeed", m_fadespeed);
@@ -978,6 +990,7 @@ namespace WhoIsSpeaking
             pFile.WriteDouble("Animation", "WaveFalloff", m_WaveSpeed);
             pFile.WriteBoolean("Ventrilo", "UseArx", useArx);
             pFile.WriteString("Ventrilo", "DisplayMethod", LEDMode.ToString());
+
         }
 
         private void setAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1041,7 +1054,11 @@ namespace WhoIsSpeaking
             m_WaveSpeed  = pFile.ReadDouble("Animation", "WaveFalloff");
             useArx = pFile.ReadBoolean("Ventrilo", "UseArx");
             LEDMode = (LEDDisplay)Enum.Parse(typeof(LEDDisplay), pFile.ReadString("Ventrilo", "DisplayMethod"));
-
+            UseKeysaver = pFile.ReadBoolean("LED", "UseKeysaver");
+            KeySaverTime = pFile.ReadInteger("LED", "KeySaverTime");
+                        
+            chkKeySaver.Checked = UseKeysaver;
+            numKeySaverTime.Value = KeySaverTime;
             picStartColour.BackColor = m_startColour;
             picEndColour.BackColor = m_endColour;
             numFadeSpeed.Value = m_fadespeed;
@@ -1077,6 +1094,28 @@ namespace WhoIsSpeaking
             Show();//shows the program on taskbar
             this.WindowState = FormWindowState.Normal;//undoes the minimized state of the form
             notifyIcon1.Visible = false;//hides tray icon again
+        }
+
+        private void chkKeySaver_CheckedChanged(object sender, EventArgs e)
+        {
+            UseKeysaver = chkKeySaver.Checked;
+            KeyboardHook.timerKeySaver.Enabled = UseKeysaver;
+            if (UseKeysaver)
+                KeyboardHook.timerKeySaver.Start();
+            else
+                KeyboardHook.timerKeySaver.Stop();
+        }
+
+        private void numKeySaverTime_ValueChanged(object sender, EventArgs e)
+        {
+            KeySaverTime = (int)numKeySaverTime.Value;
+            KeyboardHook.timerKeySaver.Enabled = UseKeysaver;
+            KeyboardHook.timerKeySaver.Interval = (int)numKeySaverTime.Value * 1000;
+        }
+
+        private void lstProfiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

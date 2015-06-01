@@ -3,6 +3,8 @@ LEDAnimation=TRUE
 KeepLogitechColours=TRUE
 StartColour=Blue
 EndColour=#FF80C0
+UseKeysaver=TRUE
+KeySaverTime=120
 [Animation]
 AnimationDelay=50
 GradientSpeed=3
