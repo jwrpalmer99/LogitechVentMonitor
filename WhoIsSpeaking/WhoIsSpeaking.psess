@@ -86,6 +86,9 @@
     <Report>
       <Path>WhoIsSpeaking150530(5).vspx</Path>
     </Report>
+    <Report>
+      <Path>WhoIsSpeaking150601.vsp</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

@@ -143,9 +143,9 @@ namespace WhoIsSpeaking
 
             try
             {
-                KeyCodes.ScanCode code = (KeyCodes.ScanCode)Enum.Parse(typeof(KeyCodes.ScanCode), keyOut);
+                //KeyCodes.ScanCode code = (KeyCodes.ScanCode)Enum.Parse(typeof(KeyCodes.ScanCode), keyOut);
                 var query = from KeyCodes.keyPosition k in KeyCodes.keypositions
-                            where k.keyCode == (int)code
+                            where k.keyname == keyOut //(int)code
                             select k;
                 
                 centroid c = new centroid();
