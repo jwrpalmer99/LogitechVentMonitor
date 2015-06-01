@@ -12,3 +12,17 @@ C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeakin
 C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.dll
 C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.pdb
 C:\Users\Jeremy\documents\visual studio 2013\Projects\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe.config
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe.config
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.exe
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.pdb
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.pdb
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\ColorManagment.dll
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\Ini.Net.dll
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.dll
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\ICCReader.dll
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.pdb
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csprojResolveAssemblyReference.cache
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.Form1.resources
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.Properties.Resources.resources
+C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csproj.GenerateResource.Cache

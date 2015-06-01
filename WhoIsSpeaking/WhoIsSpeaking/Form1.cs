@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using Ini.Net;
 using Essy.Tools.InputBox;
+using System.Security.Principal;
 
 namespace WhoIsSpeaking
 {
@@ -58,7 +59,13 @@ namespace WhoIsSpeaking
         public Form1()
         {
             InitializeComponent();
-            
+            WindowsPrincipal myPrincipal = new WindowsPrincipal (WindowsIdentity .GetCurrent());
+            if (myPrincipal.IsInRole(WindowsBuiltInRole .Administrator) == false )
+            {
+            //show messagebox - displaying a messange to the user that rights are missing
+            MessageBox .Show("You need to run the application using the 'run as administrator' option" , "administrator right required" , MessageBoxButtons .OK, MessageBoxIcon .Exclamation); 
+            }
+
             //read settings
             currentProfile = Properties.Settings.Default.ProfileDefault;
             LoadSettings(currentProfile);
@@ -201,6 +208,7 @@ namespace WhoIsSpeaking
         
         private void getTreeText(IntPtr treehandle)
         {
+
             if (process.HasExited)
             {
                 foreach (var p in Process.GetProcessesByName("Ventrilo"))
@@ -211,7 +219,7 @@ namespace WhoIsSpeaking
                 if (process == null)
                     return;
             }
-            Bitmap bitmap = MakeSnapshot(treehandle, true, Win32API.WindowShowStyle.Restore);
+            //Bitmap bitmap = MakeSnapshot(treehandle, true, Win32API.WindowShowStyle.Restore);
             ventNames = new List<string> { };
 
             int count = 0;
@@ -225,9 +233,9 @@ namespace WhoIsSpeaking
                 NodeData nodedata1 = AllocTest(process, treehandle, (IntPtr)hNode);
                 if (rootnodecount > 0)
                 {
-                    Color col = bitmap.GetPixel(nodedata1.bounds.Left - 15, nodedata1.bounds.Top + (nodedata1.bounds.Height / 2));
+                    //Color col = bitmap.GetPixel(nodedata1.bounds.Left - 15, nodedata1.bounds.Top + (nodedata1.bounds.Height / 2));
                     string strText = nodedata1.Text;
-                    if (col.G > 100)  
+                    if (nodedata1.Speaking) //(col.G > 100)  
                     {
                         //listBox1.Items.Add("     *" + strText + "*");     
                         ventNames.Add(strText);
@@ -247,10 +255,10 @@ namespace WhoIsSpeaking
                 {
                     count++;                   
                     NodeData nodedata = AllocTest(process, treehandle, (IntPtr)hChild);
-                    Color col = bitmap.GetPixel(nodedata.bounds.Left - 15, nodedata.bounds.Top + (nodedata.bounds.Height / 2));
+                    //Color col = bitmap.GetPixel(nodedata.bounds.Left - 15, nodedata.bounds.Top + (nodedata.bounds.Height / 2));
                     
                     string strText = nodedata.Text;//GetTreeItem_Local(hChild, treehandle);
-                    if (col.R < 100)
+                    if (nodedata.Speaking)// (col.R < 100)
                     { 
                         //listBox1.Items.Add("        *" + strText + "*");
                         ventNames.Add(strText);
@@ -264,7 +272,7 @@ namespace WhoIsSpeaking
             }
             //listBox1.ResumeLayout();
             //listBox1.EndUpdate();
-            if (bitmap != null) bitmap.Dispose();
+            //if (bitmap != null) bitmap.Dispose();
 
             //send to Arx
             if (useArx && ArxConnected)
@@ -293,7 +301,26 @@ namespace WhoIsSpeaking
                     lblSpeaking.Invoke((MethodInvoker)(() => lblSpeaking.Text = ""));
                 }
             }
-            
+            else
+            if (ventNames.Count > 0)
+            {
+                string names = "";
+                foreach (var name in ventNames)
+                {
+
+                    if (names != "")
+                        names += "," + name;
+                    else
+                        names = name;
+
+                }
+                //lblSpeaking.Text = names;
+                lblSpeaking.Invoke((MethodInvoker)(() => lblSpeaking.Text = names));
+            }
+            else
+            {
+                lblSpeaking.Invoke((MethodInvoker)(() => lblSpeaking.Text = ""));
+            }
 
             //scroll on keyboard
             if (LEDMode == LEDDisplay.Scroll)
@@ -389,12 +416,12 @@ namespace WhoIsSpeaking
                     if (spellText == "") return;
                     string keychar = spellText[pos].ToString().ToUpper();
                     if (keychar == " ") keychar = "SPACE";
+                    if (keychar == "-") keychar = "MINUS";
                     int keyCode = spellText[pos];                    
                     KeyCodes.KeyCode code = (KeyCodes.KeyCode)Enum.Parse(typeof(KeyCodes.KeyCode), keychar);
 
                     LogitechGSDK.LogiLedSetLightingForKeyWithScanCode((int)code, (int)(step * pos), 100 - (int)(step * pos), 0);
                     int cc = (int)(100 - (step * pos));
-                    Debug.WriteLine("green = " + cc.ToString());
                     System.Threading.Thread.Sleep(stickyDelay);
                 }
             }
@@ -665,7 +692,8 @@ namespace WhoIsSpeaking
 
             var item = new WhoIsSpeaking.tree_api.TVITEMEX();
             item.hItem = hwndItem;
-            item.mask = (int)(WhoIsSpeaking.tree_api.TVIF.TVIF_HANDLE | WhoIsSpeaking.tree_api.TVIF.TVIF_CHILDREN | WhoIsSpeaking.tree_api.TVIF.TVIF_TEXT);
+            item.mask = (int)(WhoIsSpeaking.tree_api.TVIF.TVIF_IMAGE | WhoIsSpeaking.tree_api.TVIF.TVIF_STATE | WhoIsSpeaking.tree_api.TVIF.TVIF_HANDLE | WhoIsSpeaking.tree_api.TVIF.TVIF_CHILDREN | WhoIsSpeaking.tree_api.TVIF.TVIF_TEXT);
+            item.stateMask = 0xF000;
             item.cchTextMax = 1024;
             item.pszText = VirtualAllocEx(procHandle, IntPtr.Zero, (uint)item.cchTextMax, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE); // node text pointer
 
@@ -718,7 +746,8 @@ namespace WhoIsSpeaking
             bool success2 = VirtualFreeEx(procHandle, item.pszText, (uint)item.cchTextMax, MEM_DECOMMIT);
 
             var item2 = fromBytes<WhoIsSpeaking.tree_api.TVITEMEX>(data);
-            
+
+         
             String name = Encoding.Unicode.GetString(nodeText);
     
             IntPtr buffer = VirtualAllocEx(procHandle, IntPtr.Zero, 4096, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
@@ -728,10 +757,14 @@ namespace WhoIsSpeaking
             if (x >= 0)
                 name = name.Substring(0, x);
 
+            //if (name.Contains("Jargahl"))
+                //Debug.WriteLine(item2.iImage.ToString() + ":" + item2.state.ToString());
+
             NodeData node = new NodeData();
             node.Text = name;
             node.HasChildren = (item2.cChildren == 1);
             node.bounds = r;
+            if (item2.iImage == 3) node.Speaking = true;
 
             return node;
         }
@@ -741,6 +774,7 @@ namespace WhoIsSpeaking
               
         public class NodeData
         {
+            public bool Speaking;
             public String Text { get; set; }
             public bool HasChildren { get; set; }
             public Rectangle bounds { get; set;}
