@@ -58,6 +58,8 @@ namespace WhoIsSpeaking
 
         private static string currentProfile = "default";
 
+        private HardwareMonitor hwmonitor;
+
         public Form1()
         {
             InitializeComponent();
@@ -75,7 +77,7 @@ namespace WhoIsSpeaking
             LoadSettings(currentProfile);
 
             LogitechGSDK.LogiLedInit().ToString();            
-            System.Threading.Thread.Sleep(3000); //pause to allow connection
+            System.Threading.Thread.Sleep(1000); //pause to allow connection
             LogitechGSDK.LogiLedSaveCurrentLighting();
             if (!useLogitechColours) LogitechGSDK.LogiLedSetLighting(0, 0, 0);
             if (useArx)
@@ -1131,6 +1133,13 @@ namespace WhoIsSpeaking
         private void chkRandomColours_CheckedChanged(object sender, EventArgs e)
         {
             randomColours = chkRandomColours.Checked;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            hwmonitor = new HardwareMonitor();
+            float cputemp = hwmonitor.gettemp();
+            lblCpuTemp.Text = cputemp.ToString("##") + "°C";
         }
     }
 }
