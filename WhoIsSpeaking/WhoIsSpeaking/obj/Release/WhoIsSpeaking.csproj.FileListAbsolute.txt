@@ -36,4 +36,3 @@ C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaki
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.dll
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ICCReader.dll
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.pdb
-C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csprojResolveAssemblyReference.cache

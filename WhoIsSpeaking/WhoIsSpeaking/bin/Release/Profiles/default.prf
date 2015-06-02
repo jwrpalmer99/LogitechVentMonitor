@@ -4,7 +4,7 @@ KeepLogitechColours=TRUE
 StartColour=Lime
 EndColour=Red
 UseKeysaver=TRUE
-KeySaverTime=30
+KeySaverTime=120
 [Animation]
 AnimationDelay=40
 GradientSpeed=9
