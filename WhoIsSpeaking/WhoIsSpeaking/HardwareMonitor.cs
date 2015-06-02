@@ -26,16 +26,13 @@ namespace WhoIsSpeaking
                     { "/intelcpu/0/load/0/values", "H4sIAAAAAAAEAOy9B2AcSZYlJi9tynt/SvVK1+B0oQiAYBMk2JBAEOzBiM3mkuwdaUcjKasqgcplVmVdZhZAzO2dvPfee++999577733ujudTif33/8/XGZkAWz2zkrayZ4hgKrIHz9+fB8/Iu6//MH37x79i9++mpwcv/md/9df89egZ/xX/ym/5y/4D37618Lv7ya//u+58+u+5d9/z7/5t/w9/6u5fP5bH/6av+eTkXyefXxp26ONaf/v/dG/sf39D/rvnv4e5vc/0IP56/waK/vuHzf5I38P8/tv+mv8Rbb9f0pwTF9/zr/1X9vP/8I//+/6Pf7Z30N+/zdf/HX29zd/859q4aCNP5b//U+U3/+7f+zXOjZwfqvDX/V7/o9/vPz+a1G/pv0f+fGlhfk7eZ//N3/0v28//5X0u/n8Cxq7+f1X/tHft20A5x8a/W5/02+BP36Nf+j/nv8XfzrT+c2//Ob4p3+vktvUhNs/+xcWikP6e/4T/5jS5M8/sL8vP/5ff49f/Ivl9//sHzv6PX/vXyG//9R/94/9HuZ34P/5vyC//3W/5e/1exa/k+Bw4bUBnU2bP4Xg/1bn0uafeTH6PatfKL//N3/0t2y/gG9+/8+IzqYNxmU+/+jwX7afY67/nwAAAP//GYSA31gCAAA=" },
                 });
                 _computer = new Computer(settings) { CPUEnabled = true };
+                _computer.GPUEnabled = true;
                 _computer.Open();
             }
         }
 
         internal float gettemp()
         {
-            if (_computer == null)
-            {
-
-            }
             var temps = new List<decimal>();
             foreach (var hardware in _computer.Hardware)
             {
@@ -52,35 +49,44 @@ namespace WhoIsSpeaking
                         {
                             if (sensor.SensorType == SensorType.Temperature)
                             {
+                                //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
+                                temps.Add((decimal)sensor.Value);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return (float)temps.Average();
+        }
+
+        internal float getGPUtemp()
+        {
+            var temps = new List<decimal>();
+            foreach (var hardware in _computer.Hardware)
+            {
+
+                foreach (var hardwareItem in _computer.Hardware)
+                {
+                    if (hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti)
+                    {
+                        hardwareItem.Update();
+                        foreach (IHardware subHardware in hardwareItem.SubHardware)
+                            subHardware.Update();
+
+                        foreach (var sensor in hardwareItem.Sensors)
+                        {
+                            Console.WriteLine(sensor.Name);
+                            if (sensor.SensorType == SensorType.Temperature)
+                            {
                                 Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
                                 temps.Add((decimal)sensor.Value);
                             }
                         }
                     }
                 }
-
-                //if (hardware.HardwareType != HardwareType.CPU)
-                //    continue;
-                //hardware.Update();
-                //foreach (var sensor in hardware.Sensors)
-                //{                    
-                //    Console.WriteLine(sensor.SensorType.ToString());
-                //    if (sensor.SensorType == SensorType.Temperature)
-                //    {
-                //        Console.WriteLine(sensor.Name + " = " + sensor.Value);
-                //        if (sensor.Name != null && sensor.Value != null)
-                //        { 
-                //            Console.WriteLine(">" + sensor.Name + " = " + sensor.Value);
-                //            temps.Add((decimal)sensor.Value);
-                //        }
-                //    }
-                //}
             }
 
-            foreach (decimal temp in temps)
-            {
-                Console.WriteLine(temp);
-            }
             return (float)temps.Average();
         }
     }

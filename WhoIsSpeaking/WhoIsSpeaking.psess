@@ -36,7 +36,7 @@
   </PostinstrumentEvent>
   <Binaries>
     <ProjBinary>
-      <Path>WhoIsSpeaking\obj\Debug\WhoIsSpeaking.exe</Path>
+      <Path>WhoIsSpeaking\obj\Release\WhoIsSpeaking.exe</Path>
       <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
       <Instrument>true</Instrument>
       <Sample>true</Sample>
@@ -48,8 +48,8 @@
       <LaunchProject>true</LaunchProject>
       <OverrideProjectSettings>false</OverrideProjectSettings>
       <LaunchMethod>Executable</LaunchMethod>
-      <ExecutablePath>WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe</ExecutablePath>
-      <StartupDirectory>WhoIsSpeaking\bin\Debug\</StartupDirectory>
+      <ExecutablePath>WhoIsSpeaking\bin\Release\WhoIsSpeaking.exe</ExecutablePath>
+      <StartupDirectory>WhoIsSpeaking\bin\Release\</StartupDirectory>
       <Arguments>
       </Arguments>
       <NetAppHost>IIS</NetAppHost>
@@ -67,29 +67,6 @@
       <ProjName>WhoIsSpeaking</ProjName>
     </ProjBinary>
   </Binaries>
-  <Reports>
-    <Report>
-      <Path>WhoIsSpeaking150530.vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150530(1).vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150530(2).vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150530(3).vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150530(4).vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150530(5).vspx</Path>
-    </Report>
-    <Report>
-      <Path>WhoIsSpeaking150601.vsp</Path>
-    </Report>
-  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{CDDF1098-6F5E-478C-8F16-7C89E19C7B6B}|WhoIsSpeaking\WhoIsSpeaking.csproj</Path>

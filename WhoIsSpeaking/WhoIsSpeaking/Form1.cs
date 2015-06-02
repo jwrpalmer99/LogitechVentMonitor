@@ -501,9 +501,8 @@ namespace WhoIsSpeaking
                                                     }
                                                     h1 {
                                                         display: table-cell;
-                                                        vertical-align: middle;
                                                         text-align:center;
-                                                        font-size:250%;
+                                                        font-size:200%;
                                                         color:rgb(255,255,255);
                                                     }
                                                     h2 {
@@ -1138,10 +1137,29 @@ namespace WhoIsSpeaking
         private void Form1_Load(object sender, EventArgs e)
         {
             hwmonitor = new HardwareMonitor();
+            getTemperatures();
+            if (hwmonitor.isElevated)
+            {
+                Timer timertemp = new Timer();
+                timertemp.Interval = 1000;
+                timertemp.Tick += timertemp_Tick;
+                timertemp.Start();
+            }
+        }
+
+        void timertemp_Tick(object sender, EventArgs e)
+        {
+            getTemperatures();
+        }
+
+        private void getTemperatures()
+        {
             if (hwmonitor.isElevated)
             {
                 float cputemp = hwmonitor.gettemp();
                 lblCpuTemp.Text = cputemp.ToString("##") + "°C";
+                float gputemp = hwmonitor.getGPUtemp();
+                lblGPUTemp.Text = gputemp.ToString("##") + "°C";
             }
         }
     }
