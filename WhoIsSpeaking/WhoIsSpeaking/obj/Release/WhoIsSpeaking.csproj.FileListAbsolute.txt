@@ -52,3 +52,4 @@ C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsS
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Properties.Resources.resources
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csproj.GenerateResource.Cache
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\OpenHardwareMonitorLib.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\OpenHardwareMonitorLib.dll
