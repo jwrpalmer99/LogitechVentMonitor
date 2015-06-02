@@ -36,6 +36,8 @@ namespace WhoIsSpeaking
         {
             public Point point;
             public int countup;
+            public ColorLab lab1;
+            public ColorLab lab2;
         }
         private static Bitmap bmp;
 
@@ -310,7 +312,22 @@ namespace WhoIsSpeaking
                 c.point = new Point((int)query.First().x, (int)query.First().y);
                 c.countup = 1;
 
-                bool found = false;
+                System.Drawing.Color c1 = Form1.m_startColour;
+                System.Drawing.Color c2 = Form1.m_endColour;
+
+                if (Form1.randomColours)
+                {
+                    Random rndcol = new Random();
+                    c1 = System.Drawing.Color.FromArgb(rndcol.Next(30, 255), rndcol.Next(30, 255), rndcol.Next(30, 255));
+                    c2 = System.Drawing.Color.FromArgb(rndcol.Next(30, 255), rndcol.Next(30, 255), rndcol.Next(30, 255));
+                }
+
+                ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
+                ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R, c1.G, c1.B);  //create an RGB color
+                c.lab1 = Converter.ToLab(rgb1);
+                ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R, c2.G, c2.B);  //create an RGB color
+                c.lab2 = Converter.ToLab(rgb2); 
+                                
                 for (int i = 0; i < centroids.Count; i++)
                 {
                     if (centroids[i].point == c.point)
@@ -346,28 +363,33 @@ namespace WhoIsSpeaking
                 {
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
-                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy) LogitechGSDK.LogiLedRestoreLighting();
+                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy)
+                    {
+                        LogitechGSDK.LogiLedRestoreLighting();
+                    }
                     return;
                 }
                 else
                 {                    
                     //calculate the 2 end point colours into LAB space
-                    System.Drawing.Color c1 = Form1.m_startColour;
-                    System.Drawing.Color c2 = Form1.m_endColour;
-
+                    //System.Drawing.Color c1 = Form1.m_startColour;
+                    //System.Drawing.Color c2 = Form1.m_endColour;
+                    
                     int fadespeed = Form1.m_fadespeed;
                     int gradientspeed = Form1.m_gradientspeed;
 
-                    ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
-                    ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R , c1.G, c1.B );  //create an RGB color
-                    ColorLab lab1 = Converter.ToLab(rgb1);
-                    ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R , c2.G, c2.B );  //create an RGB color
-                    ColorLab lab2 = Converter.ToLab(rgb2); 
+                    //ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
+                    //ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R , c1.G, c1.B );  //create an RGB color
+                    //ColorLab lab1 = Converter.ToLab(rgb1);
+                    //ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R , c2.G, c2.B );  //create an RGB color
+                    //ColorLab lab2 = Converter.ToLab(rgb2); 
                     
                     //bmp = new Bitmap(21, 6);
                     LockBitmap lockBitmap = new LockBitmap(bmp);
                     lockBitmap.LockBits();
 
+                    ColorLab[,] lab1 = new ColorLab[21, 6];
+                    ColorLab[,] lab2 = new ColorLab[21, 6];
 
                     for (int x = 0; x < 21; x++)
                         for (int y = 0; y < 6; y++)
@@ -390,12 +412,16 @@ namespace WhoIsSpeaking
                                     distance -= c.countup;
                                     distance = Math.Abs(distance);
                                 }
-                                if (distance < Math.Abs(distances[x, y]))
+                                if ((distance  + c.countup) < (Math.Abs(distances[x, y] + times[x,y])))
                                 {                                    
                                     distances[x, y] = distance;
+                                    lab1[x, y] = c.lab1;
+                                    lab2[x, y] = c.lab2;
+
+                                    if (c.countup < times[x, y])
+                                        times[x, y] = c.countup;
                                 }
-                                if (c.countup < times[x,y])
-                                    times[x, y] = c.countup;
+                              
                             }
                         c.countup++;
                         centroids[i] = c;
@@ -407,9 +433,9 @@ namespace WhoIsSpeaking
                             double distance = distances[x, y];
                             System.Drawing.Color colour = System.Drawing.Color.White;
                             if (Form1.m_Wave == true)
-                                colour = getColour(lab1, lab2, distance + times[x,y] + Math.Pow(distance, Form1.m_WaveSpeed), gradientspeed, fadespeed);
+                                colour = getColour(lab1[x,y], lab2[x,y], distance + times[x,y] + Math.Pow(distance, Form1.m_WaveSpeed), gradientspeed, fadespeed);
                             else
-                                colour = getColour(lab1, lab2, distance + times[x,y], gradientspeed, fadespeed);
+                                colour = getColour(lab1[x,y], lab2[x,y], distance + times[x,y], gradientspeed, fadespeed);
                             lockBitmap.SetPixel(x, y, colour);
                         }
 
