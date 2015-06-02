@@ -350,10 +350,12 @@ namespace WhoIsSpeaking
                 DoAnimation();
             }
             catch { }
+           
         }
 
         private static double[,] distances = new double[21, 6];
         private static int[,] times = new int[21, 6];
+        private static bool isAnimated = false;
         private static void DoAnimation()
         {
             //return;
@@ -361,16 +363,20 @@ namespace WhoIsSpeaking
             
                 if (centroids.Count == 0 || ((Form1)(Application.OpenForms[0])).spellText != "")
                 {
+                   
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
-                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy)
+                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy && isAnimated)
                     {
+                        //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                         LogitechGSDK.LogiLedRestoreLighting();
                     }
+                    isAnimated = false;
                     return;
                 }
                 else
-                {                    
+                {
+                    isAnimated = true;
                     //calculate the 2 end point colours into LAB space
                     //System.Drawing.Color c1 = Form1.m_startColour;
                     //System.Drawing.Color c2 = Form1.m_endColour;

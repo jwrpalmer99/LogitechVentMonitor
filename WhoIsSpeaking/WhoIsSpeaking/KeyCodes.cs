@@ -27,7 +27,7 @@ namespace WhoIsSpeaking
                     k.y = Convert.ToSingle(ele[2]);
                     k.width = Convert.ToSingle(ele[3]);
                     k.height = Convert.ToSingle(ele[4]);
-                    k.keyCode = Convert.ToInt16(ele[5], 16);
+                    k.keyCode =  Convert.ToInt16(ele[5], 16);
                     keypositions.Add(k);
                 }
             }

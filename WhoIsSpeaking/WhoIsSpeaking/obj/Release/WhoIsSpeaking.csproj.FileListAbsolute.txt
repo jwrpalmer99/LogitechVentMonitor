@@ -37,3 +37,17 @@ C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaki
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ICCReader.dll
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.pdb
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csprojResolveAssemblyReference.cache
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.exe.config
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.exe
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.pdb
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.exe
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.pdb
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ColorManagment.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\Ini.Net.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ICCReader.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.pdb
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csprojResolveAssemblyReference.cache
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Form1.resources
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Properties.Resources.resources
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csproj.GenerateResource.Cache

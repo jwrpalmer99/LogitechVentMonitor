@@ -75,7 +75,7 @@ namespace WhoIsSpeaking
             LoadSettings(currentProfile);
 
             LogitechGSDK.LogiLedInit().ToString();            
-            System.Threading.Thread.Sleep(1000); //pause to allow connection
+            System.Threading.Thread.Sleep(3000); //pause to allow connection
             LogitechGSDK.LogiLedSaveCurrentLighting();
             if (!useLogitechColours) LogitechGSDK.LogiLedSetLighting(0, 0, 0);
             if (useArx)
