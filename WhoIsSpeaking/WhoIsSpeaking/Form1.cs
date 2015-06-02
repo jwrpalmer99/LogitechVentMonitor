@@ -1138,8 +1138,11 @@ namespace WhoIsSpeaking
         private void Form1_Load(object sender, EventArgs e)
         {
             hwmonitor = new HardwareMonitor();
-            float cputemp = hwmonitor.gettemp();
-            lblCpuTemp.Text = cputemp.ToString("##") + "°C";
+            if (hwmonitor.isElevated)
+            {
+                float cputemp = hwmonitor.gettemp();
+                lblCpuTemp.Text = cputemp.ToString("##") + "°C";
+            }
         }
     }
 }

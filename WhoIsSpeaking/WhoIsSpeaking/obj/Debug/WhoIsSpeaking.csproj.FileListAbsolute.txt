@@ -38,7 +38,6 @@ C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.dll
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\ICCReader.dll
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.pdb
-C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csprojResolveAssemblyReference.cache
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\WhoIsSpeaking.exe.config
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.exe
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.pdb
@@ -55,3 +54,5 @@ C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsS
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\InputBox.pdb
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\OpenHardwareMonitorLib.dll
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csprojResolveAssemblyReference.cache
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Debug\OpenHardwareMonitorLib.dll
+C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Debug\WhoIsSpeaking.csprojResolveAssemblyReference.cache
