@@ -15,10 +15,14 @@ namespace WhoIsSpeaking
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 form1 = new Form1();
-            if (args.Length == 1 && (args[0] == "/minimized" || args[0] == "-minimized"))
-                form1.WindowState = FormWindowState.Minimized;
-            Application.Run(form1);
+            //Form1 form1 = new Form1();
+            if (args.Length == 1 && (args[0] == "/minimized" || args[0] == "-minimized" || args[0] == "--minimized"))
+            {
+                Form1.StartMinimized = true;
+                //form1.ShowInTaskbar = false;
+                //form1.WindowState = FormWindowState.Minimized;
+            }
+            Application.Run(new Form1());
         }
     }
 }

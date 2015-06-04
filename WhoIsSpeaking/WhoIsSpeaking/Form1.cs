@@ -64,6 +64,12 @@ namespace WhoIsSpeaking
         {
             InitializeComponent();
 
+            if (StartMinimized)
+            {
+                this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
+
             notifyIcon1.BalloonTipClosed += (sender, e) => { var thisIcon = (NotifyIcon)sender; thisIcon.Visible = false; thisIcon.Dispose(); };
             WindowsPrincipal myPrincipal = new WindowsPrincipal (WindowsIdentity .GetCurrent());
             if (myPrincipal.IsInRole(WindowsBuiltInRole .Administrator) == false )
@@ -84,9 +90,8 @@ namespace WhoIsSpeaking
             {
                 InitArx();
             }
-
             KeyboardHook._hookID = hook.SetHook(hook._proc);
-
+            
             timer1 = new Timer();
             timer1.Interval = 200; //vent scan interval
             timer1.Tick += timer1_Tick;
@@ -692,6 +697,7 @@ namespace WhoIsSpeaking
 
         private static IntPtr procHandle = IntPtr.Zero;
         public static bool randomColours = false;
+        public static bool StartMinimized;
         
         private static NodeData AllocTest(Process process, IntPtr hwndTreeView, IntPtr hwndItem)
         {
