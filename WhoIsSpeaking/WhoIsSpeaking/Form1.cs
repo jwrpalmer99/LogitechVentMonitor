@@ -41,7 +41,7 @@ namespace WhoIsSpeaking
         internal bool UseKeysaver = true;
         internal int KeySaverTime = 30;
         private bool useArx = true;
-        private bool useAnimation = true;
+        internal bool useAnimation = true;
         internal bool useLogitechColours = true;
         internal static Color m_startColour = Color.Green;
         internal static Color m_endColour = Color.Red;
@@ -896,14 +896,14 @@ namespace WhoIsSpeaking
         {
             useAnimation = chkLEDAnimation.Checked;
 
-            if (useAnimation)
-            {
-                KeyboardHook._hookID = hook.SetHook(hook._proc);
-            }
-            else
-            {
-                KeyboardHook.UnhookWindowsHookEx(KeyboardHook._hookID);
-            }
+            //if (useAnimation)
+            //{
+            //    KeyboardHook._hookID = hook.SetHook(hook._proc);
+            //}
+            //else
+            //{
+            //    KeyboardHook.UnhookWindowsHookEx(KeyboardHook._hookID);
+            //}
         }
 
         private void chkLogitechColours_CheckedChanged(object sender, EventArgs e)

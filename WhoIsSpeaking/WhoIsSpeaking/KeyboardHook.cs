@@ -217,7 +217,16 @@ namespace WhoIsSpeaking
                 bw_Keysave.CancelAsync();
                 timerKeySaver.Stop();
                 timerKeySaver.Start();
+                if (!((Form1)Application.OpenForms[0]).useAnimation)
+                {
+                    if (((Form1)Application.OpenForms[0]).useLogitechColours)
+                        LogitechGSDK.LogiLedRestoreLighting();
+                    else
+                        LogitechGSDK.LogiLedSetLighting(0, 0, 0);
+                }
             }
+                       
+            
             int vkCode = Marshal.ReadInt32(lParam);
 
             if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN))
@@ -236,8 +245,12 @@ namespace WhoIsSpeaking
                         bmp = new Bitmap(21, 6);
                     }
                     //do heatmap
-                    AddKeyDelegate addkey = AddKeyPress;
-                    addkey.BeginInvoke(vkCode, null, null);
+                    if (((Form1)Application.OpenForms[0]).useAnimation)
+                    {
+                        AddKeyDelegate addkey = AddKeyPress;
+                        addkey.BeginInvoke(vkCode, null, null);
+                    }
+
                 }
 
                 KeysDown.Add(vkCode);
