@@ -95,7 +95,7 @@ namespace WhoIsSpeaking
             KeyboardHook._hookID = hook.SetHook(hook._proc);
             
             timer1 = new Timer();
-            timer1.Interval = 200; //vent scan interval
+            timer1.Interval = Properties.Settings.Default.VentScanIntervalms; //vent scan interval
             timer1.Tick += timer1_Tick;
             timer1.Enabled = true;
         }
@@ -155,8 +155,8 @@ namespace WhoIsSpeaking
             }
             //GetUsers();
 
-            getUsersDelegate getArxImage = getArxEmulator;
-            getArxImage.BeginInvoke(null, null);
+            //getUsersDelegate getArxImage = getArxEmulator;
+            //getArxImage.BeginInvoke(null, null);
         }
         
         private void getArxEmulator()

@@ -79,7 +79,7 @@ namespace WhoIsSpeaking
                             Console.WriteLine(sensor.Name);
                             if (sensor.SensorType == SensorType.Temperature)
                             {
-                                Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
+                                //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
                                 temps.Add((decimal)sensor.Value);
                             }
                         }

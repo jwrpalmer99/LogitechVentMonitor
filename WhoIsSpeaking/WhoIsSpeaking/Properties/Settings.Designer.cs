@@ -34,5 +34,17 @@ namespace WhoIsSpeaking.Properties {
                 this["ProfileDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int VentScanIntervalms {
+            get {
+                return ((int)(this["VentScanIntervalms"]));
+            }
+            set {
+                this["VentScanIntervalms"] = value;
+            }
+        }
     }
 }
