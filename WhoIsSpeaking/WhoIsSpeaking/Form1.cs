@@ -24,7 +24,7 @@ namespace WhoIsSpeaking
         private int scrollPosition;
         private int spellPosition;
         private BackgroundWorker bwSpell;
-        public string spellText="";
+        public static string spellText="";
         private int maxScroll;
         private Timer timer1;
         private string scrollText;
@@ -38,11 +38,11 @@ namespace WhoIsSpeaking
 
         private List<string> ventNames;
 
-        internal bool UseKeysaver = true;
-        internal int KeySaverTime = 30;
-        private bool useArx = true;
-        internal bool useAnimation = true;
-        internal bool useLogitechColours = true;
+        internal static bool UseKeysaver = true;
+        internal static int KeySaverTime = 30;
+        private static bool useArx = true;
+        internal static bool useAnimation = true;
+        internal static bool useLogitechColours = true;
         internal static Color m_startColour = Color.Green;
         internal static Color m_endColour = Color.Red;
         internal static int m_fadespeed = 15;
@@ -214,7 +214,7 @@ namespace WhoIsSpeaking
 
                 if (process == null)
                 {
-                    System.Threading.Thread.Sleep(1000);
+                    //System.Threading.Thread.Sleep(1000);
                     //pause so we dont look for processes constantly
                     return;
                 }
@@ -1197,8 +1197,15 @@ namespace WhoIsSpeaking
 
 
         }
-
+        BackgroundWorker tempWorker;
         void timertemp_Tick(object sender, EventArgs e)
+        {
+            tempWorker = new BackgroundWorker();
+            tempWorker.DoWork += tempWorker_DoWork;
+            tempWorker.RunWorkerAsync();
+        }
+
+        void tempWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             getTemperatures();
         }
@@ -1208,9 +1215,10 @@ namespace WhoIsSpeaking
             if (hwmonitor.isElevated)
             {
                 float cputemp = hwmonitor.gettemp();
-                lblCpuTemp.Text = cputemp.ToString("##") + "°C";
+                lblCpuTemp.Invoke((MethodInvoker)(() => lblCpuTemp.Text = cputemp.ToString("##") + "°C"));
+               
                 float gputemp = hwmonitor.getGPUtemp();
-                lblGPUTemp.Text = gputemp.ToString("##") + "°C";
+                lblGPUTemp.Invoke((MethodInvoker)(() => lblGPUTemp.Text = gputemp.ToString("##") + "°C"));
             }
         }
 

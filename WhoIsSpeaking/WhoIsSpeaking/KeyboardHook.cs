@@ -42,6 +42,7 @@ namespace WhoIsSpeaking
             public ColorLab lab2;
         }
         private static Bitmap bmp;
+        private static AddKeyDelegate addkey;
 
         public IntPtr SetHook(LowLevelKeyboardProc proc)
         {
@@ -49,15 +50,15 @@ namespace WhoIsSpeaking
             timerKeySaver.Enabled = true;
             if (Application.OpenForms.Count > 0)
             {
-                timerKeySaver.Interval = ((Form1)(Application.OpenForms[0])).KeySaverTime;
-                if (((Form1)(Application.OpenForms[0])).UseKeysaver)
+                timerKeySaver.Interval = Form1.KeySaverTime;
+                if (Form1.UseKeysaver)
                 {
                     timerKeySaver.Enabled = true;
                     timerKeySaver.Start();
                 }
             }
 
-            
+            addkey = AddKeyPress;
 
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
@@ -286,6 +287,9 @@ namespace WhoIsSpeaking
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
+            Debug.WriteLine("HookCallback at " + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString() + ":" + DateTime.Now.Millisecond.ToString());
+             
+
             if (timerKeySaver.Enabled || (bw_Keysave != null && bw_Keysave.IsBusy) 
                 || (bw_Breathe != null && bw_Breathe.IsBusy))//reset timer for keysaver
             {
@@ -293,11 +297,15 @@ namespace WhoIsSpeaking
                     bw_Keysave.CancelAsync();
                 if (bw_Breathe != null)
                     bw_Breathe.CancelAsync();
-                timerKeySaver.Stop();
-                timerKeySaver.Start();
-                if (!((Form1)Application.OpenForms[0]).useAnimation)
+                //if (bw_Keysave != null || bw_Breathe != null)
+                //{
+                //    timerKeySaver.Stop();
+                //    //
+                //}
+                ////timerKeySaver.Start();
+                if (!Form1.useAnimation)
                 {
-                    if (((Form1)Application.OpenForms[0]).useLogitechColours)
+                    if (Form1.useLogitechColours)
                         LogitechGSDK.LogiLedRestoreLighting();
                     else
                         LogitechGSDK.LogiLedSetLighting(0, 0, 0);
@@ -314,18 +322,19 @@ namespace WhoIsSpeaking
                     if (WaveTimer == null)
                     {
                         WaveTimer = new Timer();
-                        WaveTimer.Interval = 10;
+                        WaveTimer.Interval = 1;
                         WaveTimer.Tick += timer1_Tick;
                         WaveTimer.Start();
+                        timer1_Tick(null, null);
                     }
                     if (bmp == null)
                     {
                         bmp = new Bitmap(21, 6);
                     }
                     //do heatmap
-                    if (((Form1)Application.OpenForms[0]).useAnimation)
+                    if (Form1.useAnimation)
                     {
-                        AddKeyDelegate addkey = AddKeyPress;
+                       
                         addkey.BeginInvoke(vkCode, null, null);
                     }
 
@@ -349,7 +358,8 @@ namespace WhoIsSpeaking
 
         private static void AddKeyPress(int vkCode)
         {
-           
+            Debug.WriteLine("AddKeyPress at " + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString() + ":" + DateTime.Now.Millisecond.ToString());
+               
 
             KeysConverter kc = new KeysConverter();
             string keyChar = kc.ConvertToString(vkCode).ToUpper();
@@ -428,6 +438,7 @@ namespace WhoIsSpeaking
                     }
                 }
                 centroids.Add(c);
+                DoAnimation();
             }
             catch
             { }
@@ -453,12 +464,12 @@ namespace WhoIsSpeaking
             //return;
             //WaveTimer.Enabled = false;
             
-                if (centroids.Count == 0 || ((Form1)(Application.OpenForms[0])).spellText != "")
+                if (centroids.Count == 0 || Form1.spellText != "")
                 {
                    
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
-                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && 
+                    if (Form1.spellText == "" && Form1.useLogitechColours && 
                         ((bw_Keysave != null && !bw_Keysave.IsBusy) ||
                         (bw_Breathe != null && !bw_Breathe.IsBusy) || (bw_Breathe == null && bw_Keysave == null)) && isAnimated)
                     {
@@ -543,7 +554,8 @@ namespace WhoIsSpeaking
 
                     byte[] b = Form1.getLEDGridFromBitmap(bmp);
                     //((Form1)Application.OpenForms[0]).pic1.Image = bmp;
-                    //bmp.Save(@"C:\temp\heatmap.png");
+                    //bmp.Save(@"C:\temp\heatmap.png"); 
+                    Debug.WriteLine("set lighting at " + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString() + ":" + DateTime.Now.Millisecond.ToString());
                     LogitechGSDK.LogiLedSetLightingFromBitmap(b);
 
                     for (int i = centroids.Count - 1; i >= 0; i--)

@@ -71,8 +71,8 @@ namespace WhoIsSpeaking
                     if (hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti)
                     {
                         hardwareItem.Update();
-                        foreach (IHardware subHardware in hardwareItem.SubHardware)
-                            subHardware.Update();
+                        //foreach (IHardware subHardware in hardwareItem.SubHardware)
+                         //   subHardware.Update();
 
                         foreach (var sensor in hardwareItem.Sensors)
                         {
