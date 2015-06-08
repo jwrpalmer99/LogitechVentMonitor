@@ -737,6 +737,7 @@ namespace WhoIsSpeaking
         private static IntPtr procHandle = IntPtr.Zero;
         public static bool randomColours = false;
         public static bool StartMinimized;
+        public static bool keysaveBreathe;
         
         private static NodeData AllocTest(Process process, IntPtr hwndTreeView, IntPtr hwndItem)
         {
@@ -1036,6 +1037,7 @@ namespace WhoIsSpeaking
             pFile.WriteBoolean("LED", "RandomColours", randomColours);
             pFile.WriteBoolean("LED", "UseKeysaver", UseKeysaver);
             pFile.WriteInteger("LED", "KeysaverTime", KeySaverTime);
+            pFile.WriteBoolean("LED", "KeySaveBreathe", keysaveBreathe);
             pFile.WriteInteger("Animation", "AnimationDelay", m_AnimationSpeed);
             pFile.WriteInteger("Animation", "GradientSpeed", m_gradientspeed);
             pFile.WriteInteger("Animation", "FadeSpeed", m_fadespeed);
@@ -1111,7 +1113,9 @@ namespace WhoIsSpeaking
             LEDMode = (LEDDisplay)Enum.Parse(typeof(LEDDisplay), pFile.ReadString("Ventrilo", "DisplayMethod"));
             UseKeysaver = pFile.ReadBoolean("LED", "UseKeysaver");
             KeySaverTime = pFile.ReadInteger("LED", "KeySaverTime");
+            keysaveBreathe = pFile.ReadBoolean("LED", "KeySaveBreathe");
 
+            chkBreathe.Checked = keysaveBreathe;
             chkRandomColours.Checked = randomColours;
             chkKeySaver.Checked = UseKeysaver;
             numKeySaverTime.Value = KeySaverTime;
@@ -1208,6 +1212,11 @@ namespace WhoIsSpeaking
                 float gputemp = hwmonitor.getGPUtemp();
                 lblGPUTemp.Text = gputemp.ToString("##") + "°C";
             }
+        }
+
+        private void chkBreathe_CheckedChanged(object sender, EventArgs e)
+        {
+            keysaveBreathe = chkBreathe.Checked; 
         }
     }
 }

@@ -20,7 +20,9 @@ namespace WhoIsSpeaking
 
         public static Timer timerKeySaver = new Timer();
         private static BackgroundWorker bw_Keysave;
-
+        private static BackgroundWorker bw_Breathe;
+        private bool doBreathe = true;
+        private static bool breatheTopPause = false;
         private bool bIsHooked = false;
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
@@ -55,9 +57,7 @@ namespace WhoIsSpeaking
                 }
             }
 
-            bw_Keysave = new BackgroundWorker();
-            bw_Keysave.DoWork += bw_Keysave_DoWork;
-            bw_Keysave.WorkerSupportsCancellation = true;
+            
 
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
@@ -70,7 +70,28 @@ namespace WhoIsSpeaking
         void timerKeySaver_Tick(object sender, EventArgs e)
         {
             Console.WriteLine("timer ticked @ " + DateTime.Now.ToLongTimeString());
-            bw_Keysave.RunWorkerAsync();
+
+            if (Form1.keysaveBreathe)
+            {
+                if (bw_Keysave != null)
+                    bw_Keysave = null;
+                bw_Breathe = new BackgroundWorker();
+                bw_Breathe.DoWork += bw_Breathe_DoWork;
+                bw_Breathe.WorkerSupportsCancellation = true;
+            }
+            else
+            {
+                if (bw_Breathe != null)
+                    bw_Breathe = null;
+                bw_Keysave = new BackgroundWorker();
+                bw_Keysave.DoWork += bw_Keysave_DoWork;
+                bw_Keysave.WorkerSupportsCancellation = true;
+            }
+
+            if (bw_Keysave != null)
+                bw_Keysave.RunWorkerAsync();
+            if (bw_Breathe != null)
+                bw_Breathe.RunWorkerAsync();
             timerKeySaver.Stop();
         }
 
@@ -79,6 +100,7 @@ namespace WhoIsSpeaking
             public Point point;
             public int counter;
         }
+
         void bw_Keysave_DoWork(object sender, DoWorkEventArgs e)
         {
             LogitechGSDK.LogiLedSetLighting(0, 0, 0);
@@ -123,9 +145,7 @@ namespace WhoIsSpeaking
                     bmp = new Bitmap(21, 6);
                     LockBitmap lockBitmap = new LockBitmap(bmp);
                     lockBitmap.LockBits();
-
-
-
+                    
                     for (int x = 0; x < 21; x++)
                         for (int y = 0; y < 6; y++)
                         {
@@ -169,23 +189,6 @@ namespace WhoIsSpeaking
                                 colour = getColour(lab1, lab2, distance + times[x, y], gradientspeed, fadespeed);
                             lockBitmap.SetPixel(x, y, colour);
                         }
-
-
-                    //for (int ki = 0; ki < points.Count - 1; ki++)
-                    //{
-                    //    double distance = points[ki].counter;
-                    //    keysavePoint kchanged = new keysavePoint();
-                    //    kchanged.point = points[ki].point;
-                    //    kchanged.counter = (int)(distance + 1);
-                    //    points[ki] = kchanged;
-                    //    int x = points[ki].point.X;
-                    //    int y = points[ki].point.Y;
-                    //    System.Drawing.Color colour = System.Drawing.Color.White;
-
-                    //    colour = getColour(lab1, lab2, distance, gradientspeed, fadespeed);
-                    //    lockBitmap.SetPixel(x, y, colour);
-                    //}
-
                     for (int k = points.Count - 1; k >= 0; k--)
                     {
                         if (points[k].counter > 20) points.RemoveAt(k);
@@ -201,7 +204,78 @@ namespace WhoIsSpeaking
                 System.Threading.Thread.Sleep(10);
             }
         }
-        
+
+        void bw_Breathe_DoWork(object sender, DoWorkEventArgs e)
+        {
+            System.Drawing.Color c1 = Form1.m_startColour;
+            System.Drawing.Color c2 = Form1.m_endColour; //System.Drawing.Color.Black;// Form1.m_endColour;
+
+            bool donePause = false;
+            int gradientspeed = Form1.m_gradientspeed;
+
+            DateTime inittime = DateTime.Now;
+            int counter = 1;// (int)(Math.PI * 2);
+            List<keysavePoint> points = new List<keysavePoint> { };
+            Random rnd = new Random();
+            while (true)
+            {
+                if (bw_Breathe.CancellationPending) return;
+
+                ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
+                ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R, c1.G, c1.B);  //create an RGB color
+                ColorLab lab1 = Converter.ToLab(rgb1);
+                ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R, c2.G, c2.B);  //create an RGB color
+                ColorLab lab2 = Converter.ToLab(rgb2);
+
+                System.Drawing.Color colour = System.Drawing.Color.White;
+                colour = getColour(lab1, lab2, pulse(counter / 1000.0, 10, Form1.m_fadespeed));
+                
+                LogitechGSDK.LogiLedSetLighting((int)(colour.R / 255.0 * 100.0), (int)(colour.G / 255.0 * 100.0), (int)(colour.B / 255.0 * 100.0));
+
+                double val = 2 * Math.PI * counter / 1000 * 10;
+                if (breatheTopPause)
+                {
+                    for (int i = 0; i < 50; i++)
+                    {
+                        if (bw_Breathe.CancellationPending) return;
+                        System.Threading.Thread.Sleep(28);
+                    }
+                    counter = (int)(Math.PI * 2);
+                    donePause = false;
+                    breatheTopPause = false;
+                }
+                else if (colour.A == 0 && !donePause)
+                {
+                    donePause = true;
+                    for (int i = 0; i < 50; i++)
+                    {
+                        if (bw_Breathe.CancellationPending) return;
+                        System.Threading.Thread.Sleep(28);
+                    }
+                }
+               
+                counter++;
+                System.Threading.Thread.Sleep((int)(55));
+            }
+        }
+
+        double pulse(double time, double frequency, int fadespeed)
+        {
+            double val = 2 * Math.PI * frequency * time;
+            double valout = 0.5 * (1 + Math.Sin(val));
+
+            double valrem = val % (Math.PI * 2);
+
+            if (valrem > Math.PI * 0.5 && valrem < Math.PI * 1.5)
+            {
+                return valout;
+            }
+            else
+            {
+                return Math.Pow(valout, fadespeed);
+            }
+        }
+
         public delegate IntPtr LowLevelKeyboardProc(
             int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -212,9 +286,13 @@ namespace WhoIsSpeaking
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (timerKeySaver.Enabled || bw_Keysave.IsBusy) //reset timer for keysaver
+            if (timerKeySaver.Enabled || (bw_Keysave != null && bw_Keysave.IsBusy) 
+                || (bw_Breathe != null && bw_Breathe.IsBusy))//reset timer for keysaver
             {
-                bw_Keysave.CancelAsync();
+                if (bw_Keysave != null)
+                    bw_Keysave.CancelAsync();
+                if (bw_Breathe != null)
+                    bw_Breathe.CancelAsync();
                 timerKeySaver.Stop();
                 timerKeySaver.Start();
                 if (!((Form1)Application.OpenForms[0]).useAnimation)
@@ -369,6 +447,7 @@ namespace WhoIsSpeaking
         private static double[,] distances = new double[21, 6];
         private static int[,] times = new int[21, 6];
         private static bool isAnimated = false;
+       
         private static void DoAnimation()
         {
             //return;
@@ -379,7 +458,9 @@ namespace WhoIsSpeaking
                    
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
-                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && !bw_Keysave.IsBusy && isAnimated)
+                    if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && 
+                        (bw_Keysave != null && !bw_Keysave.IsBusy) &&
+                        (bw_Breathe != null && !bw_Breathe.IsBusy) && isAnimated)
                     {
                         //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                         LogitechGSDK.LogiLedRestoreLighting();
@@ -492,11 +573,33 @@ namespace WhoIsSpeaking
             if (ratio > 1) ratio = 1;
             if (ratio < 0) ratio = 0;
             double ratio2 = 1 - ratio;
+
+            double L = ((c1.L * ratio2) + (c2.L * ratio));
+            double a = ((c1.a * ratio2) + (c2.a * ratio));
+            double b = ((c1.b * ratio2) + (c2.b * ratio));
+
+            //Console.WriteLine("Lab = " + L.ToString() + "," + a.ToString() + "," + b.ToString());
+            ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
+            ColorLab lab = new ColorLab(L, a, b); //create new Lab color
+            ColorRGB rgb = Converter.ToRGB(lab); //convert to rgb
+            ColorHSV hsv = Converter.ToHSV(rgb);  //conver to HSL
+            //Console.WriteLine("hsl.l = " + hsv.V.ToString());
+            hsv.V *= alpha / 255.0; //darken
+            rgb = Converter.ToRGB(hsv); //convert to rgb
+            //Console.WriteLine("RGB + " + rgb.R.ToString() + "," + rgb.G.ToString() + "," + rgb.B.ToString());
+            return System.Drawing.Color.FromArgb(255, (int)(rgb.R * 255), (int)(rgb.G * 255), (int)(rgb.B * 255));
+        }
+        
+
+        private static System.Drawing.Color getColour(ColorLab c1, ColorLab c2, double ratio)
+        {          
+            double ratio2 = 1 - ratio;
             
             double L = ((c1.L * ratio2) + (c2.L * ratio));
             double a = ((c1.a * ratio2) + (c2.a * ratio));
             double b = ((c1.b * ratio2) + (c2.b * ratio));
 
+            double alpha = 255 * (1 - (ratio * ratio));
             //Console.WriteLine("Lab = " + L.ToString() + "," + a.ToString() + "," + b.ToString());
             ColorManagment.ColorConverter Converter = new ColorManagment.ColorConverter();    //create a new instance of a ColorConverter
             ColorLab lab = new ColorLab(L,a,b); //create new Lab color
@@ -506,6 +609,10 @@ namespace WhoIsSpeaking
             hsv.V *= alpha / 255.0; //darken
             rgb = Converter.ToRGB(hsv); //convert to rgb
             //Console.WriteLine("RGB + " + rgb.R.ToString() + "," + rgb.G.ToString() + "," + rgb.B.ToString());
+            if (ratio2 == 1.0)
+                breatheTopPause = true;
+            if (alpha < 0.02)
+                return System.Drawing.Color.FromArgb(0, (int)(rgb.R * 255), (int)(rgb.G * 255), (int)(rgb.B * 255));
             return System.Drawing.Color.FromArgb(255, (int)(rgb.R * 255), (int)(rgb.G * 255), (int)(rgb.B * 255));
         }
                      

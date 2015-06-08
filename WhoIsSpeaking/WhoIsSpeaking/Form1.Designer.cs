@@ -71,6 +71,7 @@
             this.lblCpuTemp = new System.Windows.Forms.Label();
             this.lblGPUTemp = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.chkBreathe = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStartColour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEndColour)).BeginInit();
@@ -86,7 +87,7 @@
             // lblArxStatusHeader
             // 
             this.lblArxStatusHeader.AutoSize = true;
-            this.lblArxStatusHeader.Location = new System.Drawing.Point(133, 310);
+            this.lblArxStatusHeader.Location = new System.Drawing.Point(133, 334);
             this.lblArxStatusHeader.Name = "lblArxStatusHeader";
             this.lblArxStatusHeader.Size = new System.Drawing.Size(76, 17);
             this.lblArxStatusHeader.TabIndex = 1;
@@ -95,7 +96,7 @@
             // lblArxStatus
             // 
             this.lblArxStatus.AutoSize = true;
-            this.lblArxStatus.Location = new System.Drawing.Point(215, 310);
+            this.lblArxStatus.Location = new System.Drawing.Point(215, 334);
             this.lblArxStatus.Name = "lblArxStatus";
             this.lblArxStatus.Size = new System.Drawing.Size(92, 17);
             this.lblArxStatus.TabIndex = 2;
@@ -106,7 +107,7 @@
             this.chkUseArx.AutoSize = true;
             this.chkUseArx.Checked = true;
             this.chkUseArx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseArx.Location = new System.Drawing.Point(27, 309);
+            this.chkUseArx.Location = new System.Drawing.Point(27, 333);
             this.chkUseArx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkUseArx.Name = "chkUseArx";
             this.chkUseArx.Size = new System.Drawing.Size(87, 21);
@@ -118,7 +119,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 470);
+            this.label1.Location = new System.Drawing.Point(22, 506);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 17);
             this.label1.TabIndex = 4;
@@ -127,7 +128,7 @@
             // lblSpeaking
             // 
             this.lblSpeaking.AutoSize = true;
-            this.lblSpeaking.Location = new System.Drawing.Point(100, 470);
+            this.lblSpeaking.Location = new System.Drawing.Point(99, 506);
             this.lblSpeaking.Name = "lblSpeaking";
             this.lblSpeaking.Size = new System.Drawing.Size(0, 17);
             this.lblSpeaking.TabIndex = 5;
@@ -137,7 +138,7 @@
             this.groupBox1.Controls.Add(this.radioSpell);
             this.groupBox1.Controls.Add(this.radioScroll);
             this.groupBox1.Controls.Add(this.radioOFF);
-            this.groupBox1.Location = new System.Drawing.Point(27, 347);
+            this.groupBox1.Location = new System.Drawing.Point(26, 381);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -433,10 +434,10 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 436);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 500);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(381, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(384, 28);
             this.menuStrip1.TabIndex = 23;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -454,28 +455,28 @@
             // loadProfileToolStripMenuItem
             // 
             this.loadProfileToolStripMenuItem.Name = "loadProfileToolStripMenuItem";
-            this.loadProfileToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.loadProfileToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.loadProfileToolStripMenuItem.Text = "Load Profile...";
             this.loadProfileToolStripMenuItem.Click += new System.EventHandler(this.loadProfileToolStripMenuItem_Click);
             // 
             // saveProfileToolStripMenuItem
             // 
             this.saveProfileToolStripMenuItem.Name = "saveProfileToolStripMenuItem";
-            this.saveProfileToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.saveProfileToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.saveProfileToolStripMenuItem.Text = "Save Profile...";
             this.saveProfileToolStripMenuItem.Click += new System.EventHandler(this.saveProfileToolStripMenuItem_Click);
             // 
             // setAsDefaultToolStripMenuItem
             // 
             this.setAsDefaultToolStripMenuItem.Name = "setAsDefaultToolStripMenuItem";
-            this.setAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.setAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.setAsDefaultToolStripMenuItem.Text = "Set as Default";
             this.setAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.setAsDefaultToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -487,7 +488,7 @@
             this.lstProfiles.Location = new System.Drawing.Point(0, 0);
             this.lstProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstProfiles.Name = "lstProfiles";
-            this.lstProfiles.Size = new System.Drawing.Size(381, 436);
+            this.lstProfiles.Size = new System.Drawing.Size(384, 500);
             this.lstProfiles.TabIndex = 24;
             this.lstProfiles.Visible = false;
             this.lstProfiles.SelectedIndexChanged += new System.EventHandler(this.lstProfiles_SelectedIndexChanged);
@@ -495,7 +496,7 @@
             // 
             // cmdCancelProfileLoad
             // 
-            this.cmdCancelProfileLoad.Location = new System.Drawing.Point(295, 470);
+            this.cmdCancelProfileLoad.Location = new System.Drawing.Point(294, 506);
             this.cmdCancelProfileLoad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdCancelProfileLoad.Name = "cmdCancelProfileLoad";
             this.cmdCancelProfileLoad.Size = new System.Drawing.Size(75, 25);
@@ -533,7 +534,7 @@
             0,
             0,
             0});
-            this.numKeySaverTime.Location = new System.Drawing.Point(229, 258);
+            this.numKeySaverTime.Location = new System.Drawing.Point(229, 261);
             this.numKeySaverTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numKeySaverTime.Maximum = new decimal(new int[] {
             30000,
@@ -581,7 +582,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(24, 508);
+            this.label8.Location = new System.Drawing.Point(23, 544);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(76, 17);
@@ -591,7 +592,7 @@
             // lblCpuTemp
             // 
             this.lblCpuTemp.AutoSize = true;
-            this.lblCpuTemp.Location = new System.Drawing.Point(108, 508);
+            this.lblCpuTemp.Location = new System.Drawing.Point(107, 544);
             this.lblCpuTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCpuTemp.Name = "lblCpuTemp";
             this.lblCpuTemp.Size = new System.Drawing.Size(31, 17);
@@ -601,7 +602,7 @@
             // lblGPUTemp
             // 
             this.lblGPUTemp.AutoSize = true;
-            this.lblGPUTemp.Location = new System.Drawing.Point(278, 508);
+            this.lblGPUTemp.Location = new System.Drawing.Point(277, 544);
             this.lblGPUTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGPUTemp.Name = "lblGPUTemp";
             this.lblGPUTemp.Size = new System.Drawing.Size(31, 17);
@@ -611,18 +612,31 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(194, 508);
+            this.label10.Location = new System.Drawing.Point(193, 544);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(78, 17);
             this.label10.TabIndex = 32;
             this.label10.Text = "GPU Temp";
             // 
+            // chkBreathe
+            // 
+            this.chkBreathe.AutoSize = true;
+            this.chkBreathe.Location = new System.Drawing.Point(229, 297);
+            this.chkBreathe.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkBreathe.Name = "chkBreathe";
+            this.chkBreathe.Size = new System.Drawing.Size(80, 21);
+            this.chkBreathe.TabIndex = 34;
+            this.chkBreathe.Text = "Breathe";
+            this.chkBreathe.UseVisualStyleBackColor = true;
+            this.chkBreathe.CheckedChanged += new System.EventHandler(this.chkBreathe_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 535);
+            this.ClientSize = new System.Drawing.Size(384, 572);
+            this.Controls.Add(this.chkBreathe);
             this.Controls.Add(this.lblGPUTemp);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.lblCpuTemp);
@@ -725,6 +739,7 @@
         private System.Windows.Forms.Label lblCpuTemp;
         private System.Windows.Forms.Label lblGPUTemp;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox chkBreathe;
 
     }
 }
