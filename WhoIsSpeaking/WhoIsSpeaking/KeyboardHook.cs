@@ -459,8 +459,8 @@ namespace WhoIsSpeaking
                     //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                     //WaveTimer.Enabled = true;
                     if (((Form1)(Application.OpenForms[0])).spellText == "" && ((Form1)(Application.OpenForms[0])).useLogitechColours && 
-                        (bw_Keysave != null && !bw_Keysave.IsBusy) &&
-                        (bw_Breathe != null && !bw_Breathe.IsBusy) && isAnimated)
+                        ((bw_Keysave != null && !bw_Keysave.IsBusy) ||
+                        (bw_Breathe != null && !bw_Breathe.IsBusy) || (bw_Breathe == null && bw_Keysave == null)) && isAnimated)
                     {
                         //LogitechGSDK.LogiLedSetLighting(0, 0, 0);
                         LogitechGSDK.LogiLedRestoreLighting();
