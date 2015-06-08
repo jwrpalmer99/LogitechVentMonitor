@@ -85,11 +85,13 @@ namespace WhoIsSpeaking
             LogitechGSDK.LogiLedInit().ToString();            
             System.Threading.Thread.Sleep(1000); //pause to allow connection
             LogitechGSDK.LogiLedSaveCurrentLighting();
+                        
             if (!useLogitechColours) LogitechGSDK.LogiLedSetLighting(0, 0, 0);
             if (useArx)
             {
                 InitArx();
             }
+
             KeyboardHook._hookID = hook.SetHook(hook._proc);
             
             timer1 = new Timer();
@@ -152,8 +154,45 @@ namespace WhoIsSpeaking
                 getusers.BeginInvoke(null, null);
             }
             //GetUsers();
+
+            getUsersDelegate getArxImage = getArxEmulator;
+            getArxImage.BeginInvoke(null, null);
         }
         
+        private void getArxEmulator()
+        {
+            IntPtr hWnd;
+            IntPtr hEdit;
+            foreach (var p in Process.GetProcessesByName("LCore"))
+            {
+                process = p;
+                Debug.WriteLine("found new LCore process " + p.Id.ToString());
+            }
+
+            if (process == null)
+            {
+                System.Threading.Thread.Sleep(1000);
+                //pause so we dont look for processes constantly
+                return;
+            }
+            hWnd = IntPtr.Zero;
+            
+            hWnd = FindWindow(null, "LCD Emulator");
+           
+            if (hWnd != IntPtr.Zero)
+            {
+                Bitmap b = getEmulatorImage(hWnd);
+                b.Save(@"C:\Temp\b.png");
+                Debug.WriteLine("image grabbed");
+            }
+            return ;
+        }
+
+        private Bitmap getEmulatorImage(IntPtr hWnd)
+        {
+            return MakeSnapshot(hWnd, true, Win32API.WindowShowStyle.Show);
+        }
+
         private void GetUsers()
         {
             //find the "first" window
@@ -1151,6 +1190,8 @@ namespace WhoIsSpeaking
                 timertemp.Tick += timertemp_Tick;
                 timertemp.Start();
             }
+
+
         }
 
         void timertemp_Tick(object sender, EventArgs e)

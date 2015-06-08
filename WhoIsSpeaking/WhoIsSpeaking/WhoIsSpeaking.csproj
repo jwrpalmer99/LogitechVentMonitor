@@ -87,6 +87,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="KeyCodes.cs" />
+    <Compile Include="LCDHook.cs" />
     <Compile Include="LockBitmap.cs" />
     <Compile Include="LogitechArx.cs" />
     <Compile Include="LogitechSDK.cs" />
