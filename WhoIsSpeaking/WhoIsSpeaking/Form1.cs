@@ -90,14 +90,7 @@ namespace WhoIsSpeaking
             if (useArx)
             {
                 InitArx();
-            }
-
-            KeyboardHook._hookID = hook.SetHook(hook._proc);
-            
-            timer1 = new Timer();
-            timer1.Interval = Properties.Settings.Default.VentScanIntervalms; //vent scan interval
-            timer1.Tick += timer1_Tick;
-            timer1.Enabled = true;
+            }          
         }
 
         private void InitArx()
@@ -1185,6 +1178,9 @@ namespace WhoIsSpeaking
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            KeyboardHook._hookID = hook.SetHook(hook._proc);
+            
             hwmonitor = new HardwareMonitor();
             getTemperatures();
             if (hwmonitor.isElevated)
@@ -1194,8 +1190,6 @@ namespace WhoIsSpeaking
                 timertemp.Tick += timertemp_Tick;
                 timertemp.Start();
             }
-
-
         }
         BackgroundWorker tempWorker;
         void timertemp_Tick(object sender, EventArgs e)

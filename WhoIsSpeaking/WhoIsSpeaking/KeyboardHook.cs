@@ -229,11 +229,11 @@ namespace WhoIsSpeaking
                 ColorLab lab2 = Converter.ToLab(rgb2);
 
                 System.Drawing.Color colour = System.Drawing.Color.White;
-                colour = getColour(lab1, lab2, pulse(counter / 1000.0, 10, Form1.m_fadespeed));
+                colour = getColour(lab1, lab2, pulse(counter / 2000.0, 10, 5));//Form1.m_fadespeed));
                 
                 LogitechGSDK.LogiLedSetLighting((int)(colour.R / 255.0 * 100.0), (int)(colour.G / 255.0 * 100.0), (int)(colour.B / 255.0 * 100.0));
 
-                double val = 2 * Math.PI * counter / 1000 * 10;
+                double val = 2 * Math.PI * counter / 2000 * 10;
                 if (breatheTopPause)
                 {
                     for (int i = 0; i < 50; i++)
@@ -427,28 +427,34 @@ namespace WhoIsSpeaking
                 ColorRGB rgb1 = new ColorRGB(RGBSpaceName.sRGB, c1.R, c1.G, c1.B);  //create an RGB color
                 c.lab1 = Converter.ToLab(rgb1);
                 ColorRGB rgb2 = new ColorRGB(RGBSpaceName.sRGB, c2.R, c2.G, c2.B);  //create an RGB color
-                c.lab2 = Converter.ToLab(rgb2); 
-                                
-                for (int i = 0; i < centroids.Count; i++)
+                c.lab2 = Converter.ToLab(rgb2);
+
+                if (centroids.Count > 0)
                 {
-                    if (centroids[i].point == c.point)
+                    for (int i = centroids.Count-1; i > -1; i--)
                     {
-                        centroids.RemoveAt(i);
-                        break;
+                        Debug.WriteLine(i);
+                        if (centroids[i].point == c.point)
+                        {
+                            centroids.RemoveAt(i);
+                            break;
+                        }
                     }
                 }
                 centroids.Add(c);
-                DoAnimation();
+                //DoAnimation();
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("AddKeyPress: handled exception: " + ex.Message);
+            }
         }
 
         static void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
-                WaveTimer.Interval = Form1.m_AnimationSpeed;
+                WaveTimer.Interval = Form1.m_AnimationSpeed/10;
                 DoAnimation();
             }
             catch { }
@@ -456,9 +462,10 @@ namespace WhoIsSpeaking
         }
 
         private static double[,] distances = new double[21, 6];
-        private static int[,] times = new int[21, 6];
+        private static double[,] times = new double[21, 6];
         private static bool isAnimated = false;
-       
+        
+
         private static void DoAnimation()
         {
             //return;
@@ -496,9 +503,7 @@ namespace WhoIsSpeaking
                     //ColorLab lab2 = Converter.ToLab(rgb2); 
                     
                     //bmp = new Bitmap(21, 6);
-                    LockBitmap lockBitmap = new LockBitmap(bmp);
-                    lockBitmap.LockBits();
-
+                 
                     ColorLab[,] lab1 = new ColorLab[21, 6];
                     ColorLab[,] lab2 = new ColorLab[21, 6];
 
@@ -529,8 +534,8 @@ namespace WhoIsSpeaking
                                     lab1[x, y] = c.lab1;
                                     lab2[x, y] = c.lab2;
 
-                                    if (c.countup < times[x, y])
-                                        times[x, y] = c.countup;
+                                    if (c.countup / 20.0 < times[x, y])
+                                        times[x, y] = c.countup / 20.0;
                                 }
                               
                             }
@@ -538,19 +543,32 @@ namespace WhoIsSpeaking
                         centroids[i] = c;
                     }
 
-                    for (int x = 0; x < 21; x++)
-                        for (int y = 0; y < 6; y++)
-                        {
-                            double distance = distances[x, y];
-                            System.Drawing.Color colour = System.Drawing.Color.White;
-                            if (Form1.m_Wave == true)
-                                colour = getColour(lab1[x,y], lab2[x,y], distance + times[x,y] + Math.Pow(distance, Form1.m_WaveSpeed), gradientspeed, fadespeed);
-                            else
-                                colour = getColour(lab1[x,y], lab2[x,y], distance + times[x,y], gradientspeed, fadespeed);
-                            lockBitmap.SetPixel(x, y, colour);
-                        }
+                    bool allBlack = true;
+                    try
+                    {
+                        //bmp = new Bitmap(21, 6);
+                        LockBitmap lockBitmap = new LockBitmap(bmp);
+                                            
+                        lockBitmap.LockBits();
 
-                    lockBitmap.UnlockBits();
+                        for (int x = 0; x < 21; x++)
+                            for (int y = 0; y < 6; y++)
+                            {
+                                double distance = distances[x, y];
+                                System.Drawing.Color colour = System.Drawing.Color.White;
+                                if (Form1.m_Wave == true)
+                                    colour = getColour(lab1[x, y], lab2[x, y], distance + times[x, y] + Math.Pow(distance, Form1.m_WaveSpeed), gradientspeed, fadespeed);
+                                else
+                                    colour = getColour(lab1[x, y], lab2[x, y], distance + times[x, y], gradientspeed, fadespeed * 10);
+                                lockBitmap.SetPixel(x, y, colour);
+                                if (allBlack && (colour.R > 0 || colour.G > 0 || colour.B > 0))
+                                    allBlack = false;
+                            }
+                        lockBitmap.UnlockBits();
+                        
+                    }
+                    catch { }
+                    finally {  }
 
                     byte[] b = Form1.getLEDGridFromBitmap(bmp);
                     //((Form1)Application.OpenForms[0]).pic1.Image = bmp;
@@ -558,15 +576,20 @@ namespace WhoIsSpeaking
                     Debug.WriteLine("set lighting at " + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString() + ":" + DateTime.Now.Millisecond.ToString());
                     LogitechGSDK.LogiLedSetLightingFromBitmap(b);
 
-                    for (int i = centroids.Count - 1; i >= 0; i--)
+                    if (allBlack)
                     {
-                        try
-                        {                            
-                            centroid c = centroids[i];
-                            centroids[i] = c;
-                            if (centroids[i].countup > 255 / fadespeed) centroids.RemoveAt(i);
+                        centroids.Clear();
+                    }
+                    else if (!Form1.m_Wave)
+                    {
+                        for (int i = centroids.Count - 1; i >= 0; i--)
+                        {
+                            try
+                            {  
+                                    if (centroids[i].countup / 10 > 255 / fadespeed) centroids.RemoveAt(i);                           
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                    // System.Threading.Thread.Sleep(Form1.m_AnimationSpeed);
                 }
