@@ -113,6 +113,10 @@ namespace WhoIsSpeaking
                 System.Threading.Thread.Sleep(100);
                 LogitechArx.LogiArxAddUTF8StringAs(getHTML(""), "name.html");
                 LogitechArx.LogiArxSetIndex("name.html");
+                timer1 = new Timer();
+                timer1.Enabled = true;
+                timer1.Interval = 100;
+                timer1.Tick += timer1_Tick;
             }
         }
 
@@ -539,7 +543,7 @@ namespace WhoIsSpeaking
                                                     h1 {
                                                         display: table-cell;
                                                         text-align:center;
-                                                        font-size:200%;
+                                                        font-size:800%;
                                                         color:rgb(255,255,255);
                                                     }
                                                     h2 {
@@ -897,10 +901,12 @@ namespace WhoIsSpeaking
                 LogitechArx.LogiArxShutdown();
                 lblArxStatus.Text = "Diconnected";
                 lblArxStatus.ForeColor = Color.DarkRed;
+                timer1.Enabled = false;
             }
             else
             {
                 InitArx();
+               
             }
         }
 
