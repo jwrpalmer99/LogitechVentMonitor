@@ -53,3 +53,18 @@ C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsS
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor - Copy\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csproj.GenerateResource.Cache
 C:\Users\jerepalm\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\OpenHardwareMonitorLib.dll
 C:\Users\Jeremy\Documents\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\OpenHardwareMonitorLib.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.exe.config
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.exe
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.pdb
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.exe
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\WhoIsSpeaking.pdb
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ColorManagment.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\Ini.Net.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\OpenHardwareMonitorLib.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\ICCReader.dll
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\bin\Release\InputBox.pdb
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Form1.resources
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.Properties.Resources.resources
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csproj.GenerateResource.Cache
+C:\GitHub\LogitechVentMonitor\WhoIsSpeaking\WhoIsSpeaking\obj\Release\WhoIsSpeaking.csprojResolveAssemblyReference.cache

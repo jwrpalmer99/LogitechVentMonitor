@@ -34,59 +34,67 @@ namespace WhoIsSpeaking
         internal float gettemp()
         {
             var temps = new List<decimal>();
-            foreach (var hardware in _computer.Hardware)
-            {
-
-                foreach (var hardwareItem in _computer.Hardware)
+            try
+            {               
+                foreach (var hardware in _computer.Hardware)
                 {
-                    if (hardwareItem.HardwareType == HardwareType.CPU)
-                    {
-                        hardwareItem.Update();
-                        foreach (IHardware subHardware in hardwareItem.SubHardware)
-                            subHardware.Update();
 
-                        foreach (var sensor in hardwareItem.Sensors)
+                    foreach (var hardwareItem in _computer.Hardware)
+                    {
+                        if (hardwareItem.HardwareType == HardwareType.CPU)
                         {
-                            if (sensor.SensorType == SensorType.Temperature)
+                            hardwareItem.Update();
+                            foreach (IHardware subHardware in hardwareItem.SubHardware)
+                                subHardware.Update();
+
+                            foreach (var sensor in hardwareItem.Sensors)
                             {
-                                //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
-                                temps.Add((decimal)sensor.Value);
+                                if (sensor.SensorType == SensorType.Temperature)
+                                {
+                                    //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
+                                    temps.Add((decimal)sensor.Value);
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
+            catch { }
             return (float)temps.Average();
         }
 
         internal float getGPUtemp()
         {
             var temps = new List<decimal>();
-            foreach (var hardware in _computer.Hardware)
+            try
             {
-
-                foreach (var hardwareItem in _computer.Hardware)
+                foreach (var hardware in _computer.Hardware)
                 {
-                    if (hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti)
-                    {
-                        hardwareItem.Update();
-                        //foreach (IHardware subHardware in hardwareItem.SubHardware)
-                         //   subHardware.Update();
 
-                        foreach (var sensor in hardwareItem.Sensors)
+                    foreach (var hardwareItem in _computer.Hardware)
+                    {
+                        if (hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti)
                         {
-                            Console.WriteLine(sensor.Name);
-                            if (sensor.SensorType == SensorType.Temperature)
+                            hardwareItem.Update();
+                            //foreach (IHardware subHardware in hardwareItem.SubHardware)
+                            //   subHardware.Update();
+
+                            foreach (var sensor in hardwareItem.Sensors)
                             {
-                                //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
-                                temps.Add((decimal)sensor.Value);
+                                Console.WriteLine(sensor.Name);
+                                if (sensor.SensorType == SensorType.Temperature)
+                                {
+                                    //Console.WriteLine(String.Format("{0} Temperature = {1}", sensor.Name, sensor.Value.HasValue ? sensor.Value.Value.ToString() : "no value"));
+                                    temps.Add((decimal)sensor.Value);
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
+            catch { }
             return (float)temps.Average();
         }
     }

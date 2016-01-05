@@ -51,6 +51,7 @@ namespace WhoIsSpeaking
         internal static int m_AnimationSpeed = 100;
         internal static double m_WaveSpeed = 2.0;
         internal static double m_distanceFalloff = 1.0;
+        internal static double m_KeysaveNewRippleInterval = 1500;
         LogitechArx.logiArxCbContext contextCallback;
    
         private enum LEDDisplay { Off, Scroll, Spell };
@@ -90,14 +91,7 @@ namespace WhoIsSpeaking
             if (useArx)
             {
                 InitArx();
-            }
-
-            KeyboardHook._hookID = hook.SetHook(hook._proc);
-            
-            timer1 = new Timer();
-            timer1.Interval = Properties.Settings.Default.VentScanIntervalms; //vent scan interval
-            timer1.Tick += timer1_Tick;
-            timer1.Enabled = true;
+            }          
         }
 
         private void InitArx()
@@ -120,6 +114,10 @@ namespace WhoIsSpeaking
                 System.Threading.Thread.Sleep(100);
                 LogitechArx.LogiArxAddUTF8StringAs(getHTML(""), "name.html");
                 LogitechArx.LogiArxSetIndex("name.html");
+                timer1 = new Timer();
+                timer1.Enabled = true;
+                timer1.Interval = 100;
+                timer1.Tick += timer1_Tick;
             }
         }
 
@@ -546,7 +544,7 @@ namespace WhoIsSpeaking
                                                     h1 {
                                                         display: table-cell;
                                                         text-align:center;
-                                                        font-size:200%;
+                                                        font-size:800%;
                                                         color:rgb(255,255,255);
                                                     }
                                                     h2 {
@@ -901,13 +899,16 @@ namespace WhoIsSpeaking
             useArx = chkUseArx.Checked;
             if (!useArx)
             {
+                
                 LogitechArx.LogiArxShutdown();
                 lblArxStatus.Text = "Diconnected";
                 lblArxStatus.ForeColor = Color.DarkRed;
+                if (timer1 != null) timer1.Enabled = false;
             }
             else
             {
                 InitArx();
+               
             }
         }
 
@@ -1046,7 +1047,7 @@ namespace WhoIsSpeaking
             pFile.WriteDouble("Animation", "WaveFalloff", m_WaveSpeed);
             pFile.WriteBoolean("Ventrilo", "UseArx", useArx);
             pFile.WriteString("Ventrilo", "DisplayMethod", LEDMode.ToString());
-
+            pFile.WriteDouble("KeySave", "NewRippleInterval", m_KeysaveNewRippleInterval);
         }
 
         private void setAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1108,6 +1109,11 @@ namespace WhoIsSpeaking
             m_fadespeed= pFile.ReadInteger("Animation", "FadeSpeed" );
             m_distanceFalloff = pFile.ReadDouble("Animation", "EffectDistance" );
             m_Wave = pFile.ReadBoolean("Animation", "Wave" );
+            try
+            {
+                m_KeysaveNewRippleInterval = pFile.ReadDouble("KeySave", "m_KeysaveNewRippleInterval");
+            }
+            catch { }
             m_WaveSpeed  = pFile.ReadDouble("Animation", "WaveFalloff");
             useArx = pFile.ReadBoolean("Ventrilo", "UseArx");
             LEDMode = (LEDDisplay)Enum.Parse(typeof(LEDDisplay), pFile.ReadString("Ventrilo", "DisplayMethod"));
@@ -1127,6 +1133,8 @@ namespace WhoIsSpeaking
             numAnimationSpeed.Value = m_AnimationSpeed;
             numWaveSpeed.Value = (decimal)m_WaveSpeed;
             numDistanceFalloff.Value = (decimal)m_distanceFalloff;
+            numKeyRippleInterval.Value = (decimal)m_KeysaveNewRippleInterval;
+            chkUseArx.Checked = useArx;
 
             radioSpell.Checked = false;
             radioOFF.Checked = false;
@@ -1185,6 +1193,9 @@ namespace WhoIsSpeaking
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            KeyboardHook._hookID = hook.SetHook(hook._proc);
+            
             hwmonitor = new HardwareMonitor();
             getTemperatures();
             if (hwmonitor.isElevated)
@@ -1194,8 +1205,6 @@ namespace WhoIsSpeaking
                 timertemp.Tick += timertemp_Tick;
                 timertemp.Start();
             }
-
-
         }
         BackgroundWorker tempWorker;
         void timertemp_Tick(object sender, EventArgs e)
@@ -1212,19 +1221,28 @@ namespace WhoIsSpeaking
 
         private void getTemperatures()
         {
-            if (hwmonitor.isElevated)
+            try
             {
-                float cputemp = hwmonitor.gettemp();
-                lblCpuTemp.Invoke((MethodInvoker)(() => lblCpuTemp.Text = cputemp.ToString("##") + "°C"));
-               
-                float gputemp = hwmonitor.getGPUtemp();
-                lblGPUTemp.Invoke((MethodInvoker)(() => lblGPUTemp.Text = gputemp.ToString("##") + "°C"));
+                if (hwmonitor.isElevated)
+                {
+                    float cputemp = hwmonitor.gettemp();
+                    lblCpuTemp.Invoke((MethodInvoker)(() => lblCpuTemp.Text = cputemp.ToString("##") + "°C"));
+
+                    float gputemp = hwmonitor.getGPUtemp();
+                    lblGPUTemp.Invoke((MethodInvoker)(() => lblGPUTemp.Text = gputemp.ToString("##") + "°C"));
+                }
             }
+            catch { }
         }
 
         private void chkBreathe_CheckedChanged(object sender, EventArgs e)
         {
             keysaveBreathe = chkBreathe.Checked; 
+        }
+
+        private void numKeyRippleInterval_ValueChanged(object sender, EventArgs e)
+        {
+            m_KeysaveNewRippleInterval = (double)numKeyRippleInterval.Value;
         }
     }
 }

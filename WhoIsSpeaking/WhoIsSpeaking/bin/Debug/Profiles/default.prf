@@ -5,6 +5,8 @@ StartColour=Lime
 EndColour=Red
 UseKeysaver=TRUE
 KeySaverTime=120
+RandomColours=FALSE
+KeySaveBreathe=FALSE
 [Animation]
 AnimationDelay=40
 GradientSpeed=9
@@ -13,5 +15,7 @@ EffectDistance=1
 Wave=TRUE
 WaveFalloff=4
 [Ventrilo]
-UseArx=TRUE
+UseArx=FALSE
 DisplayMethod=Scroll
+[KeySave]
+NewRippleInterval=2000
