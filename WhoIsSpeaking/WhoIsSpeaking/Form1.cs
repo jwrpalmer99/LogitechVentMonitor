@@ -1179,6 +1179,7 @@ namespace WhoIsSpeaking
             KeySaverTime = (int)numKeySaverTime.Value;
             KeyboardHook.timerKeySaver.Enabled = UseKeysaver;
             KeyboardHook.timerKeySaver.Interval = (int)numKeySaverTime.Value * 1000;
+            KeyboardHook.timerKeySaver.Start();
         }
 
         private void lstProfiles_SelectedIndexChanged(object sender, EventArgs e)

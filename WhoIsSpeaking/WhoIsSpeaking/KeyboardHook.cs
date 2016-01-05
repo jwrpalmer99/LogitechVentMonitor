@@ -93,7 +93,8 @@ namespace WhoIsSpeaking
                 bw_Keysave.RunWorkerAsync();
             if (bw_Breathe != null)
                 bw_Breathe.RunWorkerAsync();
-            timerKeySaver.Stop();
+            //timerKeySaver.Stop();
+            timerKeySaver.Enabled = false;
         }
 
         public struct keysavePoint
@@ -115,7 +116,11 @@ namespace WhoIsSpeaking
 
             while (true)
             {
-                if (bw_Keysave.CancellationPending) return;
+                if (bw_Keysave.CancellationPending)
+                {
+                    timerKeySaver.Start();
+                    return;
+                }
                 TimeSpan elapsed = DateTime.Now - inittime;
                 if (elapsed.TotalMilliseconds > Form1.m_KeysaveNewRippleInterval) //change this namber to change speed new stars appear
                 {
@@ -213,7 +218,9 @@ namespace WhoIsSpeaking
                 }
                 counter++;
                 System.Threading.Thread.Sleep(10);
+
             }
+            timerKeySaver.Start();
         }
 
         void bw_Breathe_DoWork(object sender, DoWorkEventArgs e)
@@ -299,7 +306,7 @@ namespace WhoIsSpeaking
             int nCode, IntPtr wParam, IntPtr lParam)
         {
             Debug.WriteLine("HookCallback at " + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString() + ":" + DateTime.Now.Millisecond.ToString());
-             
+
 
             if (timerKeySaver.Enabled || (bw_Keysave != null && bw_Keysave.IsBusy) 
                 || (bw_Breathe != null && bw_Breathe.IsBusy))//reset timer for keysaver
@@ -363,6 +370,11 @@ namespace WhoIsSpeaking
             {
                 KeysDown.RemoveAll(k => k == vkCode);
             }
+
+
+            timerKeySaver.Stop();
+            timerKeySaver.Enabled = true;
+            timerKeySaver.Start();
 
             return (IntPtr)0;// CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
