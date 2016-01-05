@@ -50,7 +50,7 @@ namespace WhoIsSpeaking
             timerKeySaver.Enabled = true;
             if (Application.OpenForms.Count > 0)
             {
-                timerKeySaver.Interval = Form1.KeySaverTime;
+                timerKeySaver.Interval = Form1.KeySaverTime * 1000;
                 if (Form1.UseKeysaver)
                 {
                     timerKeySaver.Enabled = true;
